@@ -1,0 +1,37 @@
+﻿@model List<USExchange>
+<script type="text/javascript">
+    const model = @Html.Raw(Json.Serialize(Model))
+</script>
+<script src="~/Scripts/AllStocks.js"></script>
+<button id="load-stocks-button"
+        type="button"
+        class="button button-blue-back margin-bottom"
+        onclick="loadStocks()">
+    Load Stocks
+</button>
+<table id="stocks-table"
+       style="display: none"
+       class="table w-100">
+    <thead>
+        <tr>
+            <td style="width: 5%">Currency</td>
+            <td style="width: 30%">Description</td>
+            <td style="width: 8%">Display Symbol</td>
+            <td style="width: 10%">FIGI</td>
+            <td style="width: 10%">ISIN</td>
+            <td style="width: 10%">MIC</td>
+            <td style="width: 10%">Share Class FIGI</td>
+            <td style="width: 5%">Symbol</td>
+            <td style="width: 5%">Symbol2</td>
+            <td style="width: 10%">Type</td>
+        </tr>
+    </thead>
+    <tbody id="stock-list">
+    </tbody>
+</table>
+<button id="load-more-button"
+        type="button"
+        class="button button-green-back margin-top"
+        style="display: none"
+        onclick="loadNextItems()"
+>Load More...</button>

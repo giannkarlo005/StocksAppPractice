@@ -1,0 +1,12 @@
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\bin\Debug\net6.0\Entities.deps.json
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\bin\Debug\net6.0\Entities.dll
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\bin\Debug\net6.0\Entities.pdb
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\Entities.csproj.AssemblyReference.cache
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\Entities.GeneratedMSBuildEditorConfig.editorconfig
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\Entities.AssemblyInfoInputs.cache
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\Entities.AssemblyInfo.cs
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\Entities.csproj.CoreCompileInputs.cache
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\Entities.dll
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\refint\Entities.dll
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\Entities.pdb
+D:\Code Practice\ASP .Net\StocksAppAssignment\Entities\obj\Debug\net6.0\ref\Entities.dll

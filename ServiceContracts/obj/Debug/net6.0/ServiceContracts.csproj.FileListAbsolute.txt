@@ -1,0 +1,15 @@
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\bin\Debug\net6.0\ServiceContracts.deps.json
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\bin\Debug\net6.0\ServiceContracts.dll
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\bin\Debug\net6.0\ServiceContracts.pdb
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\bin\Debug\net6.0\Entities.dll
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\bin\Debug\net6.0\Entities.pdb
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ServiceContracts.csproj.AssemblyReference.cache
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ServiceContracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ServiceContracts.AssemblyInfoInputs.cache
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ServiceContracts.AssemblyInfo.cs
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ServiceContracts.csproj.CoreCompileInputs.cache
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ServiceContracts.csproj.CopyComplete
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ServiceContracts.dll
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\refint\ServiceContracts.dll
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ServiceContracts.pdb
+D:\Code Practice\ASP .Net\StocksAppAssignment\ServiceContracts\obj\Debug\net6.0\ref\ServiceContracts.dll

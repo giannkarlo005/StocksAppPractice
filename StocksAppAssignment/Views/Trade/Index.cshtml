@@ -1,0 +1,27 @@
+﻿@model StockTrade
+@{
+    ViewData["Title"] = "Stock Price";
+    ViewData["NavbarTitle"] = Model.StockName;
+}
+<script type="text/javascript">
+    const finnhubToken = "@ViewBag.FinnhubToken";
+    const stockSymbol = "@Model.StockSymbol";
+</script>
+<script src="~/Scripts/FinnhubWebsocket.js"></script>
+<div class="box w-30 margin-top"
+     style="margin-left:auto; margin-right: auto">
+    <div class="flex">
+         <div>
+            <img src="@Model.StockLogo" alt="@Model.StockName" />
+         </div>
+        <div>
+            <h3 style="color:steelblue">
+                    @Model.StockName (@Model.StockSymbol)
+            </h3>
+            <h1>
+                <span style="color:gray">$</span>
+                <span id="stock-price">@Model.Price</span>
+            </h1>
+        </div>
+     </div>
+</div>

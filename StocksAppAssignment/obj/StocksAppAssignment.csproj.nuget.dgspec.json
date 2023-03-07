@@ -1,0 +1,252 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\StocksAppAssignment\\StocksAppAssignment.csproj": {}
+  },
+  "projects": {
+    "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj",
+        "projectName": "Entities",
+        "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj",
+        "packagesPath": "C:\\Users\\Giann\\.nuget\\packages\\",
+        "outputPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Giann\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\ServiceContracts\\ServiceContracts.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\ServiceContracts\\ServiceContracts.csproj",
+        "projectName": "ServiceContracts",
+        "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\ServiceContracts\\ServiceContracts.csproj",
+        "packagesPath": "C:\\Users\\Giann\\.nuget\\packages\\",
+        "outputPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\ServiceContracts\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Giann\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj": {
+                "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Services\\Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Services\\Services.csproj",
+        "projectName": "Services",
+        "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Services\\Services.csproj",
+        "packagesPath": "C:\\Users\\Giann\\.nuget\\packages\\",
+        "outputPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Services\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Giann\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj": {
+                "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj"
+              },
+              "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\ServiceContracts\\ServiceContracts.csproj": {
+                "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\ServiceContracts\\ServiceContracts.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\StocksAppAssignment\\StocksAppAssignment.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\StocksAppAssignment\\StocksAppAssignment.csproj",
+        "projectName": "StocksAppAssignment",
+        "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\StocksAppAssignment\\StocksAppAssignment.csproj",
+        "packagesPath": "C:\\Users\\Giann\\.nuget\\packages\\",
+        "outputPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\StocksAppAssignment\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Giann\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj": {
+                "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Entities\\Entities.csproj"
+              },
+              "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\ServiceContracts\\ServiceContracts.csproj": {
+                "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\ServiceContracts\\ServiceContracts.csproj"
+              },
+              "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Services\\Services.csproj": {
+                "projectPath": "D:\\Code Practice\\ASP .Net\\StocksAppAssignment\\Services\\Services.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
