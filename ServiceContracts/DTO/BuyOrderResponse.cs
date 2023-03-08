@@ -10,10 +10,11 @@ namespace ServiceContracts.DTO
     public class BuyOrderResponse
     {
         public Guid? OrderID { get; set; }
+        public string? StockName { get; set; }
         public string? StockSymbol { get; set; }
         public double OrderQuantity { get; set; }
         public double OrderPrice { get; set; }
-        public DateTime DateAndTimeOfOrder { get; set; }
+        public DateTime? DateAndTimeOfOrder { get; set; }
 
         public override bool Equals(object? obj)
         {
@@ -24,10 +25,11 @@ namespace ServiceContracts.DTO
 
             BuyOrderResponse buyOrderResponse = obj as BuyOrderResponse;
             return this.OrderID == buyOrderResponse.OrderID
+                   && this.StockName == buyOrderResponse.StockName
                    && this.StockSymbol == buyOrderResponse.StockSymbol
                    && this.OrderQuantity == buyOrderResponse.OrderQuantity
                    && this.OrderPrice == buyOrderResponse.OrderPrice
-                   && DateTime.Compare(this.DateAndTimeOfOrder, buyOrderResponse.DateAndTimeOfOrder) == 0;
+                   && DateTime.Compare(this.DateAndTimeOfOrder.Value, buyOrderResponse.DateAndTimeOfOrder.Value) == 0;
         }
     }
     public static class BuyOrderResponseExtensions
@@ -37,6 +39,7 @@ namespace ServiceContracts.DTO
             return new BuyOrderResponse()
             {
                 OrderID = buyOrder.OrderID,
+                StockName = buyOrder.StockName,
                 StockSymbol = buyOrder.StockSymbol,
                 OrderQuantity = buyOrder.OrderQuantity,
                 OrderPrice = buyOrder.OrderPrice,

@@ -34,11 +34,11 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(buyOrderRequest));
             }
-            if(buyOrderRequest.OrderQuantity < 1 || buyOrderRequest.OrderQuantity > 10000)
+            if(buyOrderRequest.OrderQuantity <= 0 || buyOrderRequest.OrderQuantity > 10000)
             {
                 throw new ArgumentException(nameof(buyOrderRequest.OrderQuantity));
             }
-            if(buyOrderRequest.OrderPrice < 1 || buyOrderRequest.OrderPrice > 10000)
+            if(buyOrderRequest.OrderPrice <= 0 || buyOrderRequest.OrderPrice > 10000)
             {
                 throw new ArgumentException(nameof(buyOrderRequest.OrderPrice));
             }
@@ -46,7 +46,7 @@ namespace Services
             {
                 throw new ArgumentException(nameof(buyOrderRequest.StockSymbol));
             }
-            if(DateTime.Compare(buyOrderRequest.DateAndTimeOfOrder, DateTime.Parse("2000-01-01")) < 0)
+            if(DateTime.Compare(buyOrderRequest.DateAndTimeOfOrder.Value, DateTime.Parse("2000-01-01")) < 0)
             {
                 throw new ArgumentException(nameof(buyOrderRequest.DateAndTimeOfOrder));
             }
@@ -65,11 +65,11 @@ namespace Services
             {
                 throw new ArgumentNullException(nameof(sellOrderRequest));
             }
-            if (sellOrderRequest.OrderQuantity < 1 || sellOrderRequest.OrderQuantity > 10000)
+            if (sellOrderRequest.OrderQuantity <= 0 || sellOrderRequest.OrderQuantity > 10000)
             {
                 throw new ArgumentException(nameof(sellOrderRequest.OrderQuantity));
             }
-            if (sellOrderRequest.OrderPrice < 1 || sellOrderRequest.OrderPrice > 10000)
+            if (sellOrderRequest.OrderPrice <= 1 || sellOrderRequest.OrderPrice > 10000)
             {
                 throw new ArgumentException(nameof(sellOrderRequest.OrderPrice));
             }
@@ -77,7 +77,7 @@ namespace Services
             {
                 throw new ArgumentException(nameof(sellOrderRequest.StockSymbol));
             }
-            if (DateTime.Compare(sellOrderRequest.DateAndTimeOfOrder, DateTime.Parse("2000-01-01")) < 0)
+            if (DateTime.Compare(sellOrderRequest.DateAndTimeOfOrder.Value, DateTime.Parse("2000-01-01")) < 0)
             {
                 throw new ArgumentException(nameof(sellOrderRequest.DateAndTimeOfOrder));
             }

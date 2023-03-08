@@ -6,22 +6,49 @@
 <script type="text/javascript">
     const finnhubToken = "@ViewBag.FinnhubToken";
     const stockSymbol = "@Model.StockSymbol";
+    const stockName = "@Model.StockName";
+    const stockPrice = @Model.Price;
 </script>
+<script src="~/Scripts/Index.js" type="text/javascript"></script>
 <script src="~/Scripts/FinnhubWebsocket.js"></script>
-<div class="box w-30 margin-top"
+<div class="box w-95 margin-top"
      style="margin-left:auto; margin-right: auto">
     <div class="flex">
-         <div>
-            <img src="@Model.StockLogo" alt="@Model.StockName" />
-         </div>
-        <div>
-            <h3 style="color:steelblue">
+        <div class="flex-1 divider-right">
+            <div>
+                <img src="@Model.StockLogo" alt="@Model.StockName" />
+            </div>
+            <div>
+                <h3 class="stock-title">
                     @Model.StockName (@Model.StockSymbol)
-            </h3>
-            <h1>
-                <span style="color:gray">$</span>
-                <span id="stock-price">@Model.Price</span>
-            </h1>
+                </h3>
+                <h1>
+                    <span class="text-grey">$</span>
+                    <span id="stock-price">@Model.Price</span>
+                </h1>
+            </div>
+        </div>
+        <div class="flex-1">
+            <div class="text-grey mb-20">New Order</div>
+            <div class="mb-20 w-px-75">
+                <div class="form-label mb">Quantity</div>
+                <br />
+                <input id="order-quantity"
+                       class="form-input"
+                       type="number"
+                       
+                />
+            </div>
+            <div>
+                <button type="button"
+                        class="button button-red-back w-px-75"
+                        onclick="onSellOrderClick()"
+                >Sell</button>
+                <button type="button"
+                        class="button button-green-back w-px-75"
+                        onclick="onBuyOrderClick()"
+                >Buy</button>
+            </div>
         </div>
      </div>
 </div>

@@ -3,6 +3,8 @@ var max = 20;
 
 var isShowLoadStockButtonShown = true;
 
+document.getElementById('page-links').style.display = 'none';
+
 var createTableRows = (min, max) => {
     var strHtml = '';
     for (var i = min; i < max; i++) {

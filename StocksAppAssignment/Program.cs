@@ -10,6 +10,11 @@ builder.Services.Add(new ServiceDescriptor(
     typeof(FinnhubService),
     ServiceLifetime.Singleton
 ));
+builder.Services.Add(new ServiceDescriptor(
+    typeof(IStocksService),
+    typeof(StocksService),
+    ServiceLifetime.Singleton
+));
 var app = builder.Build();
 
 app.UseStaticFiles();

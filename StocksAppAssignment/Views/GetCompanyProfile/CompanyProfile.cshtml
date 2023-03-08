@@ -1,1 +1,15 @@
-﻿
+﻿@model StockTrade
+<div class="flex">
+    <div>
+        <img src="@Model.StockLogo" alt="@Model.StockName" />
+    </div>
+    <div>
+        <h3 style="color:steelblue">
+        @Model.StockName (@Model.StockSymbol)
+        </h3>
+        <h1>
+            <span style="color:gray">$</span>
+            <span id="stock-price">@Model.Price</span>
+        </h1>
+    </div>
+</div>

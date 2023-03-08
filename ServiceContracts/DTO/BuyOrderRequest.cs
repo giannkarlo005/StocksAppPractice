@@ -10,6 +10,8 @@ namespace ServiceContracts.DTO
 {
     public class BuyOrderRequest
     {
+        [Required(ErrorMessage = "Stock Name is required")]
+        public string? StockName { get; set; }
         [Required(ErrorMessage = "Stock Symbol is required")]
         public string? StockSymbol { get; set; }
         [Required(ErrorMessage = "Sell Order Quantity is required")]
@@ -17,12 +19,13 @@ namespace ServiceContracts.DTO
         [Required(ErrorMessage = "Sell Order Price is required")]
         public double OrderPrice { get; set; }
         [Required(ErrorMessage = "Order Date and Time is required")]
-        public DateTime DateAndTimeOfOrder { get; set; }
+        public DateTime? DateAndTimeOfOrder { get; set; } = DateTime.Now;
 
         public BuyOrder ToBuyOrder()
         {
             return new BuyOrder()
             {
+                StockName = StockName,
                 StockSymbol = StockSymbol,
                 OrderQuantity = OrderQuantity,
                 OrderPrice = OrderPrice,

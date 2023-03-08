@@ -5,13 +5,40 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
     <link href="~/StyleSheet.css" rel="stylesheet" />
+
 </head>
 <body>
     <div class="container">
         <div class="navbar">
-            <div class="navbar-brand">
-                @ViewData["NavbarTitle"]
+            <div class="flex">
+                <div class="navbar-brand flex-1">
+                    @ViewData["NavbarTitle"]
+                </div>
+                <div class="flex flex-1 flex-end">
+                    <div>
+                        <input type="text"
+                               class="form-input"
+                               placeholder="Search Stocks" />
+                    </div>
+                    <div>
+                        <button type="submit"
+                                class="button button-blue-back">
+                            Login
+                        </button>
+                    </div>
+                </div>
             </div>
+            <ul id="page-links">
+                <li>
+                    <a href="/home">All Stocks</a>
+                </li>
+                <li id="trade-link">
+                    <a href="/get-company-stockPrice/@ViewBag.StockSymbol">Trade</a>
+                </li>
+                <li id="order-link">
+                    <a href="/get-orders/@ViewBag.StockSymbol">Orders</a>
+                </li>
+            </ul>
         </div>
         <div>
             @RenderBody()
