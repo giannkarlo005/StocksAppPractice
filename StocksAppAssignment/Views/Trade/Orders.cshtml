@@ -1,0 +1,57 @@
+﻿@model Orders
+@{
+    double ComputeTradeAmount(double orderQuantity, double orderPrice)
+    {
+        return Math.Round(orderPrice * orderQuantity, 2, MidpointRounding.AwayFromZero);
+    }
+
+    string FormatDateTime(DateTime? dateTime)
+    {
+        return dateTime.Value.ToString("dd MMMM yyyy HH:mm:ss tt");
+    }
+}
+
+<div class="flex">
+    <div class="flex-1 box">
+        <div class="text-grey">Buy Orders</div>
+        <br />
+        <div class="flex flex-direction-vertical">
+            @foreach(BuyOrderResponse buyOrder in Model.BuyOrders)
+            {
+                <div class="border-bottom">
+                    <div class="mb">
+                        <h3>@buyOrder.StockName (@buyOrder.StockSymbol)</h3>
+                        <span class="text-bold">@buyOrder.OrderQuantity</span> shares at <span class="text-bold">$@buyOrder.OrderPrice</span>
+                    </div>
+                    <div class="mb">
+                        <span class="text-grey">Trade Amount: </span><p class="text-bold">$@ComputeTradeAmount(buyOrder.OrderQuantity, buyOrder.OrderPrice)</p>
+                    </div>
+                    <div class="mb">
+                        <span class="text-grey">@FormatDateTime(buyOrder.DateAndTimeOfOrder)</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="flex-1 box">
+        <div class="text-grey">Sell Orders</div>
+        <br />
+        <div class="flex flex-direction-vertical">
+            @foreach(SellOrderResponse sellOrder in Model.SellOrders)
+            {
+                <div class="border-bottom"> 
+                    <div class="mb">
+                        <h3>@sellOrder.StockName (@sellOrder.StockSymbol)</h3>
+                        <span class="text-bold">@sellOrder.OrderQuantity</span> shares at <span class="text-bold">$@sellOrder.OrderPrice</span>
+                    </div>
+                    <div class="mb">
+                        <span class="text-grey">Trade Amount: </span><p class="text-bold">$@ComputeTradeAmount(sellOrder.OrderQuantity, sellOrder.OrderPrice)</p>
+                    </div>
+                    <div class="mb">
+                        <span class="text-grey">@sellOrder.DateAndTimeOfOrder</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
