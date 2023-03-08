@@ -1,0 +1,6 @@
+.vs/
+*.dll
+*.pdb
+*.cache
+StocksAppAssignment/obj/Debug/
+StocksAppAssignment/bin/Debug/
