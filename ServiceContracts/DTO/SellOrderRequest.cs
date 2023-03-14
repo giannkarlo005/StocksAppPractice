@@ -14,7 +14,7 @@ namespace ServiceContracts.DTO
         [Required(ErrorMessage = "Stock Name is required")]
         public string? StockName { get; set; }
         [Required(ErrorMessage = "Stock Symbol is required")]
-        public string StockSymbol { get; set; }
+        public string? StockSymbol { get; set; }
         [Required(ErrorMessage = "Sell Order Quantity is required")]
         public double OrderQuantity { get; set; }
         [Required(ErrorMessage = "Sell Order Price is required")]

@@ -108,7 +108,7 @@ namespace StocksAppAssignment.Controllers
 
         [HttpPost]
         [Route("/sell-order")]
-        public void SellOrder([FromBody] SellOrderRequest sellOrderRequest)
+        public void SellOrder(SellOrderRequest sellOrderRequest)
         {
             if (!sellOrderRequest.DateAndTimeOfOrder.HasValue)
             {

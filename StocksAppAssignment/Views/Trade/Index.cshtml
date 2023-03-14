@@ -16,7 +16,7 @@
     <div class="flex">
         <div class="flex-1 divider-right">
             <div>
-                <img src="@Model.StockLogo" alt="@Model.StockName" />
+                <img src="@Model.StockLogo" alt="@Model.StockName" asp-append-version=true />
             </div>
             <div>
                 <h3 class="stock-title">
@@ -31,7 +31,7 @@
         <div class="flex-1">
             <div class="text-grey mb-20">New Order</div>
             <div class="mb-20 w-px-75">
-                <div class="form-label mb">Quantity</div>
+                <label class="form-label mb" asp-for="Quantity"></label>
                 <br />
                 <input id="order-quantity"
                        class="form-input"

@@ -30,13 +30,21 @@
             </div>
             <ul id="page-links">
                 <li>
-                    <a href="/home">All Stocks</a>
+                    <a asp-controller="Trade"
+                       asp-action="GetAllStocks"
+                    >All Stocks</a>
                 </li>
                 <li id="trade-link">
-                    <a href="/get-company-stockPrice/@ViewBag.StockSymbol">Trade</a>
+                    <a asp-controller="Trade"
+                       asp-action="Index"
+                       asp-route-stockSymbol="@ViewBag.StockSymbol"
+                    >Trade</a>
                 </li>
                 <li id="order-link">
-                    <a href="/get-orders/@ViewBag.StockSymbol">Orders</a>
+                    <a asp-controller="Trade" 
+                       asp-action="GetOrders"
+                       asp-route-stockSymbol="@ViewBag.StockSymbol"
+                    >Orders</a>
                 </li>
             </ul>
         </div>
