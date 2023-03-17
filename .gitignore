@@ -4,3 +4,13 @@
 *.cache
 StocksAppAssignment/obj/Debug/
 StocksAppAssignment/bin/Debug/
+Entities/bin/Debug/
+Entities/Migrations/
+Entities/obj/
+ServiceContracts/bin/
+ServiceContracts/obj/
+StockAppTest/bin/
+Services/obj/
+Services/bin/
+StockAppTest/obj/
+StocksAppAssignment/obj/

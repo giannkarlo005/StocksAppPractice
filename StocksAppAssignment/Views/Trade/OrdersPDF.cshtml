@@ -1,0 +1,31 @@
+﻿@model IEnumerable<OrderSummary>
+@{
+    Layout = null;
+}
+<link href="@("http://" + Context.Request.Host.ToString())/StyleSheet.css" rel="stylesheet" />
+<h1>Orders</h1>
+<table class="table w-100">
+    <thead>
+        <tr>
+            <th>Date And Time</th>
+            <th>Stock</th>
+            <th>Order Type</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Trade Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(OrderSummary orderSummary in Model)
+        {
+            <tr>
+                <td>@orderSummary.DateAndTime</td>
+                <td>@orderSummary.Stock</td>
+                <td>@orderSummary.OrderType</td>
+                <td>@orderSummary.Quantity</td>
+                <td>@orderSummary.Price</td>
+                <td>@orderSummary.TradeAmount</td>
+            </tr>
+        }
+    </tbody>
+</table>
