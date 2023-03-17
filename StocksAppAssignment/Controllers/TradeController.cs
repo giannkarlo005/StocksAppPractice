@@ -5,6 +5,8 @@ using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using Services;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 
 namespace StocksAppAssignment.Controllers
 {
@@ -108,7 +110,7 @@ namespace StocksAppAssignment.Controllers
 
         [HttpPost]
         [Route("/sell-order")]
-        public void SellOrder(SellOrderRequest sellOrderRequest)
+        public void SellOrder([FromBody] SellOrderRequest sellOrderRequest)
         {
             if (!sellOrderRequest.DateAndTimeOfOrder.HasValue)
             {
@@ -139,6 +141,72 @@ namespace StocksAppAssignment.Controllers
             };
 
             return View("Orders", stockTrade);
+        }
+
+        [Route("/orders-pdf/{stockSymbol}")]
+        public IActionResult OrdersPDF(string stockSymbol)
+        {
+            ViewBag.StockSymbol = stockSymbol;
+            IEnumerable<BuyOrderResponse> filteredBuyOrders = _stocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol); ;
+            IEnumerable<SellOrderResponse> filteredSellOrders = _stocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol); ;
+
+            List<BuyOrderResponse> buyOrderResponses = filteredBuyOrders.ToList();
+            List<SellOrderResponse> sellOrderResponses = filteredSellOrders.ToList();
+
+            List<OrderSummary> orderSummaryList = new List<OrderSummary>();
+
+
+            foreach (BuyOrderResponse buyOrder in buyOrderResponses)
+            {
+                double orderQuantity = buyOrder.OrderQuantity;
+                double orderPrice = buyOrder.OrderPrice;
+                string tradeAmount = (orderQuantity * orderPrice).ToString();
+
+                OrderSummary orderSummary = new OrderSummary()
+                {
+                    DateAndTime = buyOrder.DateAndTimeOfOrder,
+                    Stock = $"{buyOrder.StockName} ({buyOrder.StockSymbol})",
+                    OrderType = "Buy Order",
+                    Quantity = orderQuantity,
+                    Price = orderPrice,
+                    TradeAmount = $"${tradeAmount}"
+                };
+
+                orderSummaryList.Add(orderSummary);
+            }
+
+            foreach (SellOrderResponse sellOrder in sellOrderResponses)
+            {
+                double orderQuantity = sellOrder.OrderQuantity;
+                double orderPrice = sellOrder.OrderPrice;
+                string tradeAmount = (orderQuantity * orderPrice).ToString();
+
+                OrderSummary orderSummary = new OrderSummary()
+                {
+                    DateAndTime = sellOrder.DateAndTimeOfOrder,
+                    Stock = $"{sellOrder.StockName} ({sellOrder.StockSymbol})",
+                    OrderType = "Sell Order",
+                    Quantity = orderQuantity,
+                    Price = orderPrice,
+                    TradeAmount = $"${tradeAmount}"
+                };
+
+                orderSummaryList.Add(orderSummary);
+            }
+
+            orderSummaryList = orderSummaryList.OrderByDescending(x => x.DateAndTime).ToList();
+
+            return new ViewAsPdf("OrdersPDF", orderSummaryList, ViewData)
+            {
+                PageMargins = new Margins()
+                {
+                    Top = 10,
+                    Bottom = 10,
+                    Left = 10,
+                    Right = 10
+                },
+                PageOrientation = Orientation.Portrait
+            };
         }
     }
 }

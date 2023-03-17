@@ -6,13 +6,11 @@ namespace Services
 {
     public class StocksService : IStocksService
     {
-        private List<BuyOrder> _buyOrder;
-        private List<SellOrder> _sellOrder;
+        private readonly StockMarketDbContext _dbContext;
 
-        public StocksService()
+        public StocksService(StockMarketDbContext dbContext)
         {
-            _buyOrder = new List<BuyOrder>();
-            _sellOrder = new List<SellOrder>();
+            _dbContext = dbContext;
         }
 
         private BuyOrderResponse ConvertToBuyOrderResponse(BuyOrder buyOrder)
@@ -54,7 +52,8 @@ namespace Services
             BuyOrder buyOrder = buyOrderRequest.ToBuyOrder();
             buyOrder.OrderID = Guid.NewGuid();
 
-            _buyOrder.Add(buyOrder);
+            _dbContext.sp_InsertBuyOrder(buyOrder);
+            _dbContext.SaveChangesAsync();
 
             return ConvertToBuyOrderResponse(buyOrder);
         }
@@ -85,19 +84,22 @@ namespace Services
             SellOrder sellOrder = sellOrderRequest.ToSellOrder();
             sellOrder.OrderID = Guid.NewGuid();
 
-            _sellOrder.Add(sellOrder);
+            _dbContext.sp_InsertSellOrder(sellOrder);
+            _dbContext.SaveChangesAsync();
 
             return ConvertToSellOrderResponse(sellOrder);
         }
 
         public List<BuyOrderResponse> GetAllBuyOrders()
         {
-            return _buyOrder.Select(buyOrder => ConvertToBuyOrderResponse(buyOrder)).ToList();
+            List<BuyOrder> buyOrders = _dbContext.sp_GetBuyOrders();
+            return buyOrders.Select(buyOrder => buyOrder.ToBuyOrderResponse()).ToList();
         }
 
         public List<SellOrderResponse> GetAllSellOrders()
         {
-            return _sellOrder.Select(sellOrder => ConvertToSellOrderResponse(sellOrder)).ToList();
+            List<SellOrder> sellOrders = _dbContext.sp_GetSellOrders();
+            return sellOrders.Select(sellOrder => sellOrder.ToSellOrderResponse()).ToList();
         }
     }
 }

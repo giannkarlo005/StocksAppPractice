@@ -10,7 +10,11 @@
         return dateTime.Value.ToString("dd MMMM yyyy HH:mm:ss tt");
     }
 }
-
+<a class="m-10-20"
+   asp-controller="Trade"
+   asp-action="OrdersPDF"
+   asp-route-stockSymbol="@ViewBag.StockSymbol"
+>View as PDF</a>
 <div class="flex">
     <div class="flex-1 box">
         <div class="text-grey">Buy Orders</div>

@@ -11,7 +11,6 @@ var alertUser = (message) => {
 
 var onSellOrderClick = async () => {
     var orderQuantity = document.getElementById('order-quantity').value;
-
     var data = {
         StockName: stockName,
         StockSymbol: stockSymbol,

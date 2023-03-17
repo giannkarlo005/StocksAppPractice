@@ -11,7 +11,7 @@ namespace StockAppTest
 
         public StockServiceTest()
         {
-            _stocksService = new StocksService();
+            _stocksService = new StocksService(null);
         }
 
         #region BuyOrder
