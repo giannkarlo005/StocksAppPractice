@@ -129,6 +129,11 @@
     background-color: #83b8cb;
 }
 
+.table-white
+{
+    background-color: white;
+}
+
 .w-25
 {
     width: 25%;
@@ -182,8 +187,16 @@
     margin-bottom: 10px;
 }
 
+.mb-15 {
+    margin-bottom: 15px;
+}
+
 .mb-20 {
     margin-bottom: 20px;
+}
+
+.mb-25 {
+    margin-bottom: 25px;
 }
 
 .mb-50 {
@@ -465,6 +478,12 @@ a.link-hover:hover
     background-color: #e5e5e5;
 }
 
+a.no-link
+{
+    color: white;
+    text-decoration: none;
+}
+
 .button {
     padding: 8px 12px;
     border: 2px solid #cacaca;
@@ -643,6 +662,24 @@ a.link-hover:hover
     flex-direction: column;
 }
 
+.technology-label
+{
+    border-radius: 10px;
+    padding: 3px 5px;
+    background-color: gray;
+    color: white;
+}
+
+.exchange-label {
+    border-radius: 10px;
+    padding: 3px 5px;
+    background-color: gray;
+    color: white;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+#buy-orders-list, #sell-orders-list
 #buy-orders-list, #sell-orders-list
 {
     flex: 1 auto;

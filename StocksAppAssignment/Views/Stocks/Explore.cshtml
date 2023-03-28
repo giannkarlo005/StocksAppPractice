@@ -1,0 +1,36 @@
+﻿@model List<Stock>
+
+<script src="~/Scripts/Explore.js" type="text/javascript"></script>
+@{
+    ViewData["Title"] = "Top 25 Stocks";
+}
+<div class="flex">
+    <div class="flex-1 w-50"
+         id="pop-stocks">
+         <div class="box">
+            <div class="text-grey">
+                Stocks
+            </div>
+             <table class="table table-white w-100">
+                 <tbody>
+                     @foreach(var stock in Model)
+                    {
+                        <tr style="cursor: pointer;"
+                            onclick="onStockSelected('@stock.StockSymbol')">
+                            <td>
+                                <div class="text-bold">@stock.StockName</div>
+                                <div class="text-grey">
+                                    (<span id="@stock.StockSymbol">@stock.StockSymbol</span>)
+                                </div>
+                             </td>
+                         </tr>
+                    }
+                 </tbody>
+             </table>
+         </div>
+    </div>
+    <div class="flex-1 w-50"
+         id="selected-stock">
+       @await Component.InvokeAsync("SelectedStock", null)
+    </div>
+</div>

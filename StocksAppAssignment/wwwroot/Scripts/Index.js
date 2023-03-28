@@ -1,4 +1,5 @@
-﻿document.getElementById('page-links').style.display = 'inline-block';
+﻿document.getElementById('all-stocks').style.display = 'inline-block';
+document.getElementById('top-25').style.display = 'inline-block';
 document.getElementById('trade-link').style.borderBottom = "2px solid #626262";
 document.getElementById('order-link').style.borderBottom = "none";
 

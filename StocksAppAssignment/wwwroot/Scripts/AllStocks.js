@@ -3,7 +3,10 @@ var max = 20;
 
 var isShowLoadStockButtonShown = true;
 
-document.getElementById('page-links').style.display = 'none';
+document.getElementById('top-25').style.display = 'inline-block';
+document.getElementById('all-stocks').style.display = 'none';
+document.getElementById('trade-link').style.display = 'none';
+document.getElementById('order-link').style.display = 'none';
 
 var createTableRows = (min, max) => {
     var strHtml = '';
@@ -15,12 +18,7 @@ var createTableRows = (min, max) => {
             + "<td>" + model[i].currency + "</td>"
             + "<td><a class=\"cursor-pointer\" href=\"/get-company-stockPrice/" + model[i].symbol + "\">" + model[i].description + "</a></td>"
             + "<td>" + model[i].displaySymbol + "</td>"
-            + "<td>" + model[i].figi + "</td>"
-            + "<td>" + model[i].isin + "</td>"
-            + "<td>" + model[i].mic + "</td>"
-            + "<td>" + model[i].shareClassFIGI + "</td>"
             + "<td>" + model[i].symbol + "</td>"
-            + "<td>" + model[i].symbol2 + "</td>"
             + "<td>" + model[i].type + "</td>"
             + "</tr>"
     }

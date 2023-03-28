@@ -1,5 +1,6 @@
 ﻿using Entities;
 using ServiceContracts;
+
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -39,13 +40,13 @@ namespace Services
             return usExchange;
         }
 
-        public async Task<Dictionary<string, object>>? GetCompanyProfile(string companySymbol)
+        public async Task<Dictionary<string, object>?> GetCompanyProfile(string companySymbol)
         {
             string url = _finnhubURL + "/stock/profile2?symbol=" + companySymbol + "&token=" + _finnhubToken;
             HttpResponseMessage response = GetAsyncUrl(url).Result;
-            Dictionary<string, object>? companyProfile = await response.Content.ReadFromJsonAsync<Dictionary<string, object>?>();
+            Dictionary<string, object>? companyProfileDict = await response.Content.ReadFromJsonAsync<Dictionary<string, object>?>();
 
-            return companyProfile;
+            return companyProfileDict;
         }
 
         public async Task<Dictionary<string, object>?> GetStockPriceQuote(string companySymbol)

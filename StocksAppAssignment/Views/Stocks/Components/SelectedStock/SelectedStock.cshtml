@@ -1,0 +1,33 @@
+﻿@model CompanyProfile
+@if(Model != null)
+{
+    <div>
+        <img src="@Model.CompanyLogo"
+             alt="@Model.CompanyName"
+             style="width:200px; height: 200px"
+             asp-append-version=true />
+    </div>
+    <div>
+        <h3 class="stock-title mb">
+            @Model.CompanyName (@Model.StockSymbol)
+        </h3>
+        <div class="mb-15">
+            <span class="technology-label">
+                @Model.FinnHubIndustry
+            </span>
+        </div>
+        <div class="mb-25">
+            <b>Exchange:</b>
+            <span class="exchange-label">@Model.Exchange</span>
+        </div>
+        <div class="mb-25 stock-price">
+            <b class="text-grey">$</b>
+            <span class="text-bold">@Model.StockPrice</span>
+        </div>
+    </div>
+    <a class="button button-blue-back no-link"
+       asp-controller="Trade"
+       asp-action="Index"
+       asp-route-stockSymbol="@ViewBag.StockSymbol"
+    >Trade Now</a>
+}
