@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+
 using StocksAppAssignment.Models;
 using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
-using Services;
+
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
+using Serilog;
 
 namespace StocksAppAssignment.Controllers
 {
@@ -14,11 +16,19 @@ namespace StocksAppAssignment.Controllers
     {
         private readonly IFinnhubService _finnhubService;
         private readonly IStocksService _stocksService;
+        private readonly ILogger<TradeController> _logger;
+        private readonly IDiagnosticContext _diagnosticContext;
+
         private readonly FinnhubApiOptions _finnhubApiOptions;
+
         private readonly string FinnhubURL = "";
         private readonly string FinnhubToken = "";
 
-        public TradeController(IOptions<FinnhubApiOptions> finnhubApiOptions, IFinnhubService finnhubService, IStocksService stocksService)
+        public TradeController(IOptions<FinnhubApiOptions> finnhubApiOptions,
+                               IFinnhubService finnhubService,
+                               IStocksService stocksService,
+                               ILogger<TradeController> logger,
+                               IDiagnosticContext diagnosticContext)
         {
             _finnhubApiOptions = finnhubApiOptions.Value;
             _finnhubService = finnhubService;
@@ -29,12 +39,16 @@ namespace StocksAppAssignment.Controllers
             _finnhubService.SetFinnhubUrlToken(FinnhubURL, FinnhubToken);
 
             _stocksService = stocksService;
+            _logger = logger;
+            _diagnosticContext = diagnosticContext;
         }
 
         [Route("/")]
         [Route("/home")]
         public IActionResult GetAllStocks()
         {
+            _logger.LogInformation("GetAllStocks of TradeController");
+
             List<USExchange> usExchange = _finnhubService.GetAllStocks().Result;
 
             return View(usExchange);
@@ -43,7 +57,10 @@ namespace StocksAppAssignment.Controllers
         [Route("/get-company-stockPrice/{stockSymbol}")]
         public IActionResult Index(string? stockSymbol)
         {
-            if(String.IsNullOrEmpty(stockSymbol))
+            _logger.LogInformation("Index of TradeController");
+            _logger.LogDebug($"StockSymbol: {stockSymbol}");
+
+            if (String.IsNullOrEmpty(stockSymbol))
             {
                 return null;
             }
@@ -101,6 +118,9 @@ namespace StocksAppAssignment.Controllers
         [Route("/buy-order")]
         public void BuyOrder([FromBody] BuyOrderRequest buyOrderRequest)
         {
+            _logger.LogInformation("BuyOrder of TradeController");
+            _diagnosticContext.Set("BuyOrderRequest", buyOrderRequest);
+
             if (!buyOrderRequest.DateAndTimeOfOrder.HasValue)
             {
                 buyOrderRequest.DateAndTimeOfOrder = DateTime.Now;
@@ -112,6 +132,9 @@ namespace StocksAppAssignment.Controllers
         [Route("/sell-order")]
         public void SellOrder([FromBody] SellOrderRequest sellOrderRequest)
         {
+            _logger.LogInformation("SellOrder of TradeController");
+            _diagnosticContext.Set("SellOrderRequest", sellOrderRequest);
+
             if (!sellOrderRequest.DateAndTimeOfOrder.HasValue)
             {
                 sellOrderRequest.DateAndTimeOfOrder = DateTime.Now;
@@ -122,6 +145,9 @@ namespace StocksAppAssignment.Controllers
         [Route("/get-orders/{stockSymbol?}")]
         public IActionResult GetOrders(string? stockSymbol)
         {
+            _logger.LogInformation("GetOrders of TradeController");
+            _logger.LogDebug($"StockSymbol: {stockSymbol}");
+
             if (String.IsNullOrEmpty(stockSymbol))
             {
                 return null;
@@ -146,6 +172,9 @@ namespace StocksAppAssignment.Controllers
         [Route("/orders-pdf/{stockSymbol}")]
         public IActionResult OrdersPDF(string stockSymbol)
         {
+            _logger.LogInformation("OrdersPDF of TradeController");
+            _logger.LogDebug($"StockSymbol: {stockSymbol}");
+
             ViewBag.StockSymbol = stockSymbol;
             IEnumerable<BuyOrderResponse> filteredBuyOrders = _stocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol); ;
             IEnumerable<SellOrderResponse> filteredSellOrders = _stocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol); ;

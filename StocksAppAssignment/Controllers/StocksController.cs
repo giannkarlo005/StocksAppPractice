@@ -1,9 +1,11 @@
-﻿using Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+
+using Entities;
 using ServiceContracts;
 using StocksAppAssignment.Models;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 namespace StocksAppAssignment.Controllers
 {
@@ -13,14 +15,24 @@ namespace StocksAppAssignment.Controllers
         private readonly IFinnhubService _finnhubService;
         private readonly IStocksService _stocksService;
 
+        private readonly ILogger<StocksController> _logger;
+        private readonly IDiagnosticContext _diagnosticContext;
+
         private readonly string FinnhubURL = "";
         private readonly string FinnhubToken = "";
 
-        public StocksController(IConfiguration configuration, IFinnhubService finnhubService, IStocksService stocksService) 
+        public StocksController(IConfiguration configuration,
+                                IFinnhubService finnhubService,
+                                IStocksService stocksService,
+                                ILogger<StocksController> logger,
+                                IDiagnosticContext diagnosticContext) 
         { 
             _configuration = configuration;
             _finnhubService = finnhubService;
             _stocksService = stocksService;
+
+            _logger = logger;
+            _diagnosticContext = diagnosticContext;
 
             IEnumerable<IConfigurationSection> finnhubApiOptions = _configuration.GetSection("finnhubapi").GetChildren();
 
@@ -37,6 +49,8 @@ namespace StocksAppAssignment.Controllers
 
         private List<string> getTop25StocksList()
         {
+            _logger.LogInformation("getTop25StocksList of StocksController");
+
             var tradingOptions = _configuration.GetSection("TradingOptions").GetChildren();
             string top25StocksStr = "";
             foreach (var section in tradingOptions)
@@ -53,6 +67,9 @@ namespace StocksAppAssignment.Controllers
 
         private List<Stock> getPopularStocksProfiles(List<string> top25StocksList)
         {
+            _logger.LogInformation("getPopularStocksProfiles of StocksController");
+            _diagnosticContext.Set("Top25StocksList", top25StocksList);
+
             List<Stock> popularStocks = new List<Stock>();
             List<USExchange> usExchange = _finnhubService.GetAllStocks().Result;
             foreach (var exchange in usExchange)
@@ -74,6 +91,9 @@ namespace StocksAppAssignment.Controllers
 
         private CompanyProfile getCompanyProfile(string StockSymbol)
         {
+            _logger.LogInformation("getCompanyProfile of StocksController");
+            _logger.LogDebug($"StockSymbol: {StockSymbol}");
+
             string companyName = "";
             string companyLogo = "";
             string country = "";
@@ -84,6 +104,8 @@ namespace StocksAppAssignment.Controllers
             string webURL = "";
 
             Dictionary<string, object>? companyProfileDict = _finnhubService.GetCompanyProfile(StockSymbol).Result;
+            _diagnosticContext.Set("CompanyProfileDictionary", companyProfileDict);
+
             if (companyProfileDict.IsNullOrEmpty())
             {
                 throw new ArgumentException("Stock Symbol not found");
@@ -139,8 +161,12 @@ namespace StocksAppAssignment.Controllers
         [Route("stocks/explore")]
         public IActionResult Explore()
         {
+            _logger.LogInformation("Get Explore of StocksController");
+
             List<string> top25StocksList = getTop25StocksList();
             List<Stock> popularStocks = getPopularStocksProfiles(top25StocksList);
+
+            _diagnosticContext.Set("Top25PopularStocks", popularStocks);
 
             ViewBag.StockSymbol = null;
             ViewBag.CompanyProfile = null;
@@ -154,6 +180,9 @@ namespace StocksAppAssignment.Controllers
         [Route("stocks/explore")]
         public IActionResult Explore([FromBody] string? StockSymbol)
         {
+            _logger.LogInformation("Post Explore of StocksController");
+            _logger.LogDebug($"StockSymbol: {StockSymbol}");
+
             ViewBag.StockSymbol = StockSymbol;
 
             double companyStockPrice = 0;

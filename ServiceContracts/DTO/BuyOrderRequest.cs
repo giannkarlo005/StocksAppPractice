@@ -32,5 +32,14 @@ namespace ServiceContracts.DTO
                 DateAndTimeOfOrder = DateAndTimeOfOrder
             };
         }
+
+        public override string ToString()
+        {
+            return $"Stock Name: {StockName}," +
+                   $"Stock Symbol: {StockSymbol}," +
+                   $"Order Quantity: {OrderQuantity}," +
+                   $"Order Price: {OrderPrice}," +
+                   $"Date and Time of Order: {DateAndTimeOfOrder}";
+        }
     }
 }
