@@ -15,18 +15,20 @@ var onSellOrderClick = async () => {
     var data = {
         StockName: stockName,
         StockSymbol: stockSymbol,
-        OrderQuantity: orderQuantity,
-        OrderPrice: stockPrice,
+        OrderQuantity: orderQuantity || 0.0,
+        OrderPrice: stockPrice || 0.0,
         DateAndTimeOfOrder: null
     };
 
-    await fetch("/sell-order", {
+    alertUser("Sell Stock Submitted");
+    var response = await fetch("/sell-order", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     });
+    var responseText = await response.text();
 
-    //alertUser("Stock Successfully Queued for Sell");
+    document.querySelector("html").innerHTML = responseText;
 };
 
 var onBuyOrderClick = async () => {
@@ -34,19 +36,18 @@ var onBuyOrderClick = async () => {
     var data = {
         StockName: stockName,
         StockSymbol: stockSymbol,
-        OrderQuantity: orderQuantity,
-        OrderPrice: stockPrice,
+        OrderQuantity: orderQuantity || 0.0,
+        OrderPrice: stockPrice || 0.0,
         DateAndTimeOfOrder: null
     };
 
+    alertUser("Buy Stock Submitted");
     var response = await fetch("/buy-order", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     })
     var responseText = await response.text();
-    console.log(responseText);
 
-    //window.location.pathname = JSON.parse(responseText);
-    //alertUser("Stock Successfully Queued for Buy");
+    document.querySelector("html").innerHTML = responseText;
 };

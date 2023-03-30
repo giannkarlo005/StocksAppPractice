@@ -173,8 +173,12 @@
     width: 100%;
 }
 
-.w-px-75 {
-    width: 75px;
+.w-px-85 {
+    width: 85px;
+}
+
+.w-px-400 {
+    width: 400px;
 }
 
 .mt

@@ -117,7 +117,7 @@ namespace StocksAppAssignment.Controllers
 
         [HttpPost]
         [Route("/buy-order")]
-        //[TypeFilter(typeof(CreateOrderActionFilter))]
+        [TypeFilter(typeof(CreateOrderActionFilter))]
         public async Task<IActionResult> BuyOrder([FromBody] OrderRequest orderRequest)
         {
             _logger.LogInformation("BuyOrder of TradeController");

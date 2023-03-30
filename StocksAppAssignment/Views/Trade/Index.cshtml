@@ -15,7 +15,7 @@
      class="box w-95 margin-top"
      style="margin-left:auto; margin-right: auto">
     <div class="flex">
-        <div class="flex-1 divider-right">
+        <div class="flex-2 divider-right">
             <div>
                 <img src="@Model.StockLogo" alt="@Model.StockName" asp-append-version=true />
             </div>
@@ -31,35 +31,34 @@
         </div>
         <div class="flex-1">
             <div class="text-grey mb-20">New Order</div>
-            <div class="mb-20 w-px-75">
+            <div class="mb-20 w-px-85">
                 <label class="form-label mb" asp-for="Quantity"></label>
                 <br />
                 <input id="order-quantity"
                        class="form-input"
                        type="number"
-                       
                 />
+            </div>
+            <div class="text-red mt mb-20 w-px-400">
+            @if (ViewBag.Errors != null)
+            {
+                <ul>
+                    @foreach (string error in ViewBag.Errors)
+                    {
+                        <li class="ml">@error</li>
+                    }
+                </ul>
+            }
             </div>
             <div>
                 <button type="button"
-                        class="button button-red-back w-px-75"
+                        class="button button-red-back w-px-85"
                         onclick="onSellOrderClick()"
                 >Sell</button>
                 <button type="button"
-                        class="button button-green-back w-px-75"
+                        class="button button-green-back w-px-85"
                         onclick="onBuyOrderClick()"
                 >Buy</button>
-                 @if (ViewBag.Errors != null)
-                 {
-                  <div class="text-red mt">
-                   <ul>
-                    @foreach (string error in ViewBag.Errors)
-                    {
-                     <li class="ml">@error</li>
-                    }
-                   </ul>
-                  </div>
-                 }
             </div>
         </div>
      </div>

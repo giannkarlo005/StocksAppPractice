@@ -25,33 +25,17 @@ namespace StocksAppAssignment.Filters.ActionFilters
             {
                 if(!tradeController.ModelState.IsValid)
                 {
-                    if (context.ActionArguments.ContainsKey("buyOrderRequest"))
+                    if (context.ActionArguments.ContainsKey("orderRequest"))
                     {
-                        OrderRequest buyOrderRequest = context.ActionArguments["buyOrderRequest"] as OrderRequest;
+                        OrderRequest orderRequest = context.ActionArguments["orderRequest"] as OrderRequest;
 
-                        _logger.LogError("Buy Order Quantity is {OrderQuantity}", Convert.ToString(buyOrderRequest.OrderQuantity));
-                        _logger.LogError("Buy Order Price is {OrderPrice}", Convert.ToString(buyOrderRequest.OrderQuantity));
-                        _logger.LogError("Buy Order Stock Symbol is null");
-                        _logger.LogError("Buy Order Date and Time of Order is {DateAndTimeOfOrder}", Convert.ToString(buyOrderRequest.DateAndTimeOfOrder));
+                        _logger.LogError("Order Quantity is {OrderQuantity}", Convert.ToString(orderRequest.OrderQuantity));
+                        _logger.LogError("Order Price is {OrderPrice}", Convert.ToString(orderRequest.OrderQuantity));
+                        _logger.LogError("Order Stock Symbol is null");
+                        _logger.LogError("Order Date and Time of Order is {DateAndTimeOfOrder}", Convert.ToString(orderRequest.DateAndTimeOfOrder));
 
                         tradeController.ViewBag.Errors = tradeController.ModelState.Values.SelectMany(x => x.Errors).Select(y => y.ErrorMessage).ToList();
-                        context.Result = await tradeController.Index(buyOrderRequest.StockSymbol);
-                    }
-                    else if (context.ActionArguments.ContainsKey("sellOrderRequest"))
-                    {
-                        OrderRequest sellOrderRequest = context.ActionArguments["sellOrderRequest"] as OrderRequest;
-
-                        _logger.LogError("Sell Order Quantity is {OrderQuantity}", Convert.ToString(sellOrderRequest.OrderQuantity));
-                        _logger.LogError("Sell Order Price is {OrderPrice}", Convert.ToString(sellOrderRequest.OrderQuantity));
-                        _logger.LogError("Sell Order Stock Symbol is null");
-                        _logger.LogError("Sell Order Date and Time of Order is {DateAndTimeOfOrder}", Convert.ToString(sellOrderRequest.DateAndTimeOfOrder));
-
-                        tradeController.ViewBag.Errors = tradeController.ModelState.Values.SelectMany(x => x.Errors).Select(y => y.ErrorMessage).ToList();
-                        context.Result = await tradeController.Index(sellOrderRequest.StockSymbol);
-                    }
-                    else
-                    {
-                        tradeController.ViewBag.Error = "OrderRequest is Invalid";
+                        context.Result = await tradeController.Index(orderRequest.StockSymbol);
                     }
                 }
                 else
