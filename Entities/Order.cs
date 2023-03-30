@@ -2,14 +2,14 @@
 
 namespace Entities
 {
-    public class SellOrder
+    public class Order
     {
         [Key]
-        public Guid OrderID { get; set; }
+        public Guid? OrderID { get; set; }
         [StringLength(100)]
-        public string StockName { get; set; }
+        public string? StockName { get; set; }
         [StringLength(15)]
-        public string StockSymbol { get; set; }
+        public string? StockSymbol { get; set; }
         public double OrderQuantity { get; set; }
         public double OrderPrice { get; set; }
         public DateTime? DateAndTimeOfOrder { get; set; }
@@ -24,4 +24,5 @@ namespace Entities
                    $"Date and Time of Order: {DateAndTimeOfOrder}";
         }
     }
+
 }

@@ -30,11 +30,11 @@ namespace StockAppTest
         [Fact]
         public void BuyOrder_NullOrderRequest()
         {
-            BuyOrderRequest buyOrderRequest = null;
+           OrderRequest orderRequest = null;
 
             Func<Task> action = async () =>
             {
-                _stocksService.CreateBuyOrder(buyOrderRequest);
+                _stocksService.CreateBuyOrder(orderRequest);
             };
             action.Should().ThrowAsync<ArgumentNullException>();
         }
@@ -43,7 +43,7 @@ namespace StockAppTest
         [Fact]
         public void BuyOrder_OrderQuantityIs0()
         {
-            BuyOrderRequest buyOrderRequest = _fixture.Build<BuyOrderRequest>()
+            OrderRequest buyOrderRequest = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 0)
                                               .With(request => request.OrderPrice, 100)
                                               .Create();
@@ -59,7 +59,7 @@ namespace StockAppTest
         [Fact]
         public void BuyOrder_OrderQuantityIsGreaterThan10000()
         {
-            BuyOrderRequest buyOrderRequest = _fixture.Build<BuyOrderRequest>()
+            OrderRequest buyOrderRequest = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 10001)
                                               .With(request => request.OrderPrice, 100)
                                               .Create();
@@ -75,7 +75,7 @@ namespace StockAppTest
         [Fact]
         public void BuyOrder_OrderPriceIsGreaterThan10000()
         {
-            BuyOrderRequest buyOrderRequest = _fixture.Build<BuyOrderRequest>()
+            OrderRequest buyOrderRequest = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 100)
                                               .With(request => request.OrderPrice, 10001)
                                               .Create();
@@ -91,7 +91,7 @@ namespace StockAppTest
         [Fact]
         public void BuyOrder_StockSymbolIsNull()
         {
-            BuyOrderRequest buyOrderRequest = _fixture.Build<BuyOrderRequest>()
+            OrderRequest buyOrderRequest = _fixture.Build<OrderRequest>()
                                   .With(request => request.StockSymbol, null as string)
                                   .With(request => request.OrderQuantity, 100)
                                   .With(request => request.OrderPrice, 100)
@@ -108,7 +108,7 @@ namespace StockAppTest
         [Fact]
         public void BuyOrder_DateAndTimeOfOrderIsSameOrLaterThan20010101()
         {
-            BuyOrderRequest buyOrderRequest = _fixture.Build<BuyOrderRequest>()
+            OrderRequest buyOrderRequest = _fixture.Build<OrderRequest>()
                                               .With(request => request.StockSymbol, "MSFT")
                                               .With(request => request.OrderQuantity, 100)
                                               .With(request => request.OrderPrice, 100)
@@ -126,14 +126,14 @@ namespace StockAppTest
         [Fact]
         public void BuyOrder_AllValuesAreValid()
         {
-            BuyOrderRequest buyOrderRequest = _fixture.Create<BuyOrderRequest>();
-            BuyOrderResponse buyOrderResponseExpected = _fixture.Create<BuyOrderResponse>();
+            OrderRequest orderRequest = _fixture.Create<OrderRequest>();
+            OrderResponse orderResponseExpected = _fixture.Create<OrderResponse>();
 
-            _stocksServiceMock.Setup(mock => mock.CreateBuyOrder(It.IsAny<BuyOrderRequest>()))
-                              .Returns(buyOrderResponseExpected);
+            _stocksServiceMock.Setup(mock => mock.CreateBuyOrder(It.IsAny<OrderRequest>()))
+                              .Returns(orderResponseExpected);
 
-            BuyOrderResponse buyOrderResponseActual = _stocksService.CreateBuyOrder(buyOrderRequest);
-            buyOrderResponseActual.Should().BeEquivalentTo(buyOrderResponseExpected);
+            OrderResponse buyOrderResponseActual = _stocksService.CreateBuyOrder(orderRequest);
+            buyOrderResponseActual.Should().BeEquivalentTo(orderResponseExpected);
         }
         #endregion
 
@@ -143,9 +143,9 @@ namespace StockAppTest
         public void GetAllBuyOrders_DefaultResponse()
         {
             _stocksServiceMock.Setup(mock => mock.GetAllBuyOrders())
-                              .Returns(new List<BuyOrderResponse>());
+                              .Returns(new List<OrderResponse>());
 
-            List<BuyOrderResponse> buyOrders = _stocksService.GetAllBuyOrders();
+            List<OrderResponse> buyOrders = _stocksService.GetAllBuyOrders();
 
             buyOrders.Should().BeEmpty();
         }
@@ -154,52 +154,52 @@ namespace StockAppTest
         [Fact]
         public void GetAllBuyOrders_AddFewBuyOrders()
         {
-            BuyOrderRequest buyOrderRequest1 = _fixture.Build<BuyOrderRequest>()
+            OrderRequest orderRequest1 = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 100)
                                               .With(request => request.OrderPrice, 100)
                                               .With(request => request.DateAndTimeOfOrder, DateTime.Parse("2010-01-01"))
                                               .Create();
 
-            BuyOrderRequest buyOrderRequest2 = _fixture.Build<BuyOrderRequest>()
+            OrderRequest orderRequest2 = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 50)
                                               .With(request => request.OrderPrice, 200)
                                               .With(request => request.DateAndTimeOfOrder, DateTime.Parse("2010-02-15"))
                                               .Create();
 
-            BuyOrderRequest buyOrderRequest3 = _fixture.Build<BuyOrderRequest>()
+            OrderRequest orderRequest3 = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 70)
                                               .With(request => request.OrderPrice, 150)
                                               .With(request => request.DateAndTimeOfOrder, DateTime.Parse("2013-06-10"))
                                               .Create();
 
 
-            BuyOrderResponse buyOrderResponseExpected = _fixture.Create<BuyOrderResponse>();
+            OrderResponse buyOrderResponseExpected = _fixture.Create<OrderResponse>();
 
 
-            _stocksServiceMock.Setup(mock => mock.CreateBuyOrder(It.IsAny<BuyOrderRequest>()))
+            _stocksServiceMock.Setup(mock => mock.CreateBuyOrder(It.IsAny<OrderRequest>()))
                               .Returns(buyOrderResponseExpected);
 
-            BuyOrderResponse buyOrderResponse1 = _stocksService.CreateBuyOrder(buyOrderRequest1);
-            BuyOrderResponse buyOrderResponse2 = _stocksService.CreateBuyOrder(buyOrderRequest2);
-            BuyOrderResponse buyOrderResponse3 = _stocksService.CreateBuyOrder(buyOrderRequest3);
+            OrderResponse orderResponse1 = _stocksService.CreateBuyOrder(orderRequest1);
+            OrderResponse orderResponse2 = _stocksService.CreateBuyOrder(orderRequest2);
+            OrderResponse orderResponse3 = _stocksService.CreateBuyOrder(orderRequest3);
 
             _stocksServiceMock.Setup(mock => mock.GetAllBuyOrders())
-                              .Returns(new List<BuyOrderResponse>()
+                              .Returns(new List<OrderResponse>()
                               {
-                                  buyOrderResponse1,
-                                  buyOrderResponse2,
-                                  buyOrderResponse3,
+                                  orderResponse1,
+                                  orderResponse2,
+                                  orderResponse3,
                               });
 
-            List<BuyOrderResponse> buyOrders = _stocksService.GetAllBuyOrders();
+            List<OrderResponse> buyOrders = _stocksService.GetAllBuyOrders();
 
-            buyOrderResponse1.OrderID.Should().NotBe(Guid.Empty);
-            buyOrderResponse2.OrderID.Should().NotBe(Guid.Empty);
-            buyOrderResponse3.OrderID.Should().NotBe(Guid.Empty);
+            orderResponse1.OrderID.Should().NotBe(Guid.Empty);
+            orderResponse2.OrderID.Should().NotBe(Guid.Empty);
+            orderResponse3.OrderID.Should().NotBe(Guid.Empty);
 
-            buyOrders.Should().Contain(buyOrderResponse1);
-            buyOrders.Should().Contain(buyOrderResponse2);
-            buyOrders.Should().Contain(buyOrderResponse3);
+            buyOrders.Should().Contain(orderResponse1);
+            buyOrders.Should().Contain(orderResponse2);
+            buyOrders.Should().Contain(orderResponse3);
         }
         #endregion
 
@@ -208,11 +208,11 @@ namespace StockAppTest
         [Fact]
         public void SellOrder_NullOrderRequest()
         {
-            SellOrderRequest sellOrderRequest = null;
+            OrderRequest orderRequest = null;
 
             Func<Task> action = async () =>
             {
-                _stocksService.CreateSellOrder(sellOrderRequest);
+                _stocksService.CreateSellOrder(orderRequest);
             };
             action.Should().ThrowAsync<ArgumentNullException>();
         }
@@ -221,7 +221,7 @@ namespace StockAppTest
         [Fact]
         public void SellOrder_OrderQuantityIs0()
         {
-            SellOrderRequest sellOrderRequest = new SellOrderRequest()
+            OrderRequest orderRequest = new OrderRequest()
             {
                 StockSymbol = "MSFT",
                 OrderQuantity = 0,
@@ -231,7 +231,7 @@ namespace StockAppTest
 
             Func<Task> action = async () =>
             {
-                _stocksService.CreateSellOrder(sellOrderRequest);
+                _stocksService.CreateSellOrder(orderRequest);
             };
             action.Should().ThrowAsync<ArgumentException>();
         }
@@ -240,7 +240,7 @@ namespace StockAppTest
         [Fact]
         public void SellOrder_OrderQuantityIsGreaterThan10000()
         {
-            SellOrderRequest sellOrderRequest = new SellOrderRequest()
+            OrderRequest orderRequest = new OrderRequest()
             {
                 StockSymbol = "MSFT",
                 OrderQuantity = 10001,
@@ -250,7 +250,7 @@ namespace StockAppTest
 
             Func<Task> action = async () =>
             {
-                _stocksService.CreateSellOrder(sellOrderRequest);
+                _stocksService.CreateSellOrder(orderRequest);
             };
             action.Should().ThrowAsync<ArgumentException>();
         }
@@ -259,7 +259,7 @@ namespace StockAppTest
         [Fact]
         public void SellOrder_OrderPriceIsGreaterThan10000()
         {
-            SellOrderRequest sellOrderRequest = new SellOrderRequest()
+            OrderRequest orderRequest = new OrderRequest()
             {
                 StockSymbol = "MSFT",
                 OrderQuantity = 100,
@@ -269,7 +269,7 @@ namespace StockAppTest
 
             Func<Task> action = async () =>
             {
-                _stocksService.CreateSellOrder(sellOrderRequest);
+                _stocksService.CreateSellOrder(orderRequest);
             };
             action.Should().ThrowAsync<ArgumentException>();
         }
@@ -278,7 +278,7 @@ namespace StockAppTest
         [Fact]
         public void SellOrder_StockSymbolIsNull()
         {
-            SellOrderRequest sellOrderRequest = new SellOrderRequest()
+            OrderRequest orderRequest = new OrderRequest()
             {
                 StockSymbol = null,
                 OrderQuantity = 100,
@@ -288,7 +288,7 @@ namespace StockAppTest
 
             Func<Task> action = async () =>
             {
-                _stocksService.CreateSellOrder(sellOrderRequest);
+                _stocksService.CreateSellOrder(orderRequest);
             };
             action.Should().ThrowAsync<ArgumentException>();
         }
@@ -297,7 +297,7 @@ namespace StockAppTest
         [Fact]
         public void SellOrder_DateAndTimeOfOrderIsSameOrLaterThan20010101()
         {
-            SellOrderRequest sellOrderRequest = new SellOrderRequest()
+            OrderRequest orderRequest = new OrderRequest()
             {
                 StockSymbol = "MSFT",
                 OrderQuantity = 100,
@@ -307,7 +307,7 @@ namespace StockAppTest
 
             Func<Task> action = async () =>
             {
-                _stocksService.CreateSellOrder(sellOrderRequest);
+                _stocksService.CreateSellOrder(orderRequest);
             };
             action.Should().ThrowAsync<ArgumentException>();
         }
@@ -316,13 +316,13 @@ namespace StockAppTest
         [Fact]
         public void SellOrder_AllValuesAreValid()
         {
-            SellOrderRequest sellOrderRequest = _fixture.Create<SellOrderRequest>();
-            SellOrderResponse sellOrderResponseExpected = _fixture.Create<SellOrderResponse>();
+            OrderRequest sellOrderRequest = _fixture.Create<OrderRequest>();
+            OrderResponse sellOrderResponseExpected = _fixture.Create<OrderResponse>();
 
-            _stocksServiceMock.Setup(mock => mock.CreateSellOrder(It.IsAny<SellOrderRequest>()))
+            _stocksServiceMock.Setup(mock => mock.CreateSellOrder(It.IsAny<OrderRequest>()))
                               .Returns(sellOrderResponseExpected);
 
-            SellOrderResponse sellOrderResponseActual = _stocksService.CreateSellOrder(sellOrderRequest);
+            OrderResponse sellOrderResponseActual = _stocksService.CreateSellOrder(sellOrderRequest);
             sellOrderResponseActual.Should().BeEquivalentTo(sellOrderResponseExpected);
         }
         #endregion
@@ -333,9 +333,9 @@ namespace StockAppTest
         public void GetAllSellOrders_DefaultResponse()
         {
             _stocksServiceMock.Setup(mock => mock.GetAllSellOrders())
-                  .Returns(new List<SellOrderResponse>());
+                  .Returns(new List<OrderResponse>());
 
-            List<SellOrderResponse> sellOrders = _stocksService.GetAllSellOrders();
+            List<OrderResponse> sellOrders = _stocksService.GetAllSellOrders();
 
             sellOrders.Should().BeEmpty();
         }
@@ -344,43 +344,43 @@ namespace StockAppTest
         [Fact]
         public void GetAllSellOrders_AddFewBuyOrders()
         {
-            SellOrderRequest sellOrderRequest1 = _fixture.Build<SellOrderRequest>()
+            OrderRequest orderRequest1 = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 100)
                                               .With(request => request.OrderPrice, 100)
                                               .With(request => request.DateAndTimeOfOrder, DateTime.Parse("2010-01-01"))
                                               .Create();
 
-            SellOrderRequest sellOrderRequest2 = _fixture.Build<SellOrderRequest>()
+            OrderRequest orderRequest2 = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 50)
                                               .With(request => request.OrderPrice, 200)
                                               .With(request => request.DateAndTimeOfOrder, DateTime.Parse("2010-02-15"))
                                               .Create();
 
-            SellOrderRequest sellOrderRequest3 = _fixture.Build<SellOrderRequest>()
+            OrderRequest orderRequest3 = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 70)
                                               .With(request => request.OrderPrice, 150)
                                               .With(request => request.DateAndTimeOfOrder, DateTime.Parse("2013-06-10"))
                                               .Create();
 
 
-            SellOrderResponse sellOrderResponseExpected = _fixture.Create<SellOrderResponse>();
+            OrderResponse sellOrderResponseExpected = _fixture.Create<OrderResponse>();
 
-            _stocksServiceMock.Setup(mock => mock.CreateSellOrder(It.IsAny<SellOrderRequest>()))
+            _stocksServiceMock.Setup(mock => mock.CreateSellOrder(It.IsAny<OrderRequest>()))
                               .Returns(sellOrderResponseExpected);
 
-            SellOrderResponse sellOrderResponse1 = _stocksService.CreateSellOrder(sellOrderRequest1);
-            SellOrderResponse sellOrderResponse2 = _stocksService.CreateSellOrder(sellOrderRequest2);
-            SellOrderResponse sellOrderResponse3 = _stocksService.CreateSellOrder(sellOrderRequest3);
+            OrderResponse sellOrderResponse1 = _stocksService.CreateSellOrder(orderRequest1);
+            OrderResponse sellOrderResponse2 = _stocksService.CreateSellOrder(orderRequest2);
+            OrderResponse sellOrderResponse3 = _stocksService.CreateSellOrder(orderRequest3);
 
             _stocksServiceMock.Setup(mock => mock.GetAllSellOrders())
-                              .Returns(new List<SellOrderResponse>()
+                              .Returns(new List<OrderResponse>()
                               {
                                   sellOrderResponse1,
                                   sellOrderResponse2,
                                   sellOrderResponse3,
                               });
 
-            List<SellOrderResponse> sellOrders = _stocksService.GetAllSellOrders();
+            List<OrderResponse> sellOrders = _stocksService.GetAllSellOrders();
 
             sellOrderResponse1.OrderID.Should().NotBe(Guid.Empty);
             sellOrderResponse2.OrderID.Should().NotBe(Guid.Empty);

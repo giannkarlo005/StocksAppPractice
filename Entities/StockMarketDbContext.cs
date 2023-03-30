@@ -5,8 +5,8 @@ namespace Entities
 {
     public class StockMarketDbContext: DbContext
     {
-        public virtual DbSet<BuyOrder> BuyOrders { get; set; }
-        public virtual DbSet<SellOrder> SellOrders { get; set; }
+        public virtual DbSet<Order> BuyOrders { get; set; }
+        public virtual DbSet<Order> SellOrders { get; set; }
 
         public StockMarketDbContext(DbContextOptions options):
             base(options)
@@ -15,11 +15,11 @@ namespace Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BuyOrder>().ToTable("BuyOrders");
-            modelBuilder.Entity<SellOrder>().ToTable("SellOrders");
+            modelBuilder.Entity<Order>().ToTable("BuyOrders");
+            modelBuilder.Entity<Order>().ToTable("SellOrders");
         }
 
-        public int sp_InsertBuyOrder(BuyOrder buyOrder)
+        public int sp_InsertBuyOrder(Order buyOrder)
         {
             SqlParameter[] sqlParameters = new SqlParameter[]
             {
@@ -41,7 +41,7 @@ namespace Entities
                                           , sqlParameters);
         }
 
-        public int sp_InsertSellOrder(SellOrder sellOrder)
+        public int sp_InsertSellOrder(Order sellOrder)
         {
             SqlParameter[] sqlParameters = new SqlParameter[]
             {
@@ -63,12 +63,12 @@ namespace Entities
                                           , sqlParameters);
         }
 
-        public List<BuyOrder> sp_GetBuyOrders()
+        public List<Order> sp_GetBuyOrders()
         {
             return BuyOrders.FromSqlRaw("EXECUTE [dbo].[GetBuyOrders]").ToList();
         }
 
-        public List<SellOrder> sp_GetSellOrders()
+        public List<Order> sp_GetSellOrders()
         {
             return SellOrders.FromSqlRaw("EXECUTE [dbo].[GetSellOrders]").ToList();
         }

@@ -1,30 +1,26 @@
 ﻿using Entities;
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace ServiceContracts.DTO
 {
-    public class SellOrderRequest
+    public class OrderRequest
     {
         [Required(ErrorMessage = "Stock Name is required")]
         public string? StockName { get; set; }
         [Required(ErrorMessage = "Stock Symbol is required")]
         public string? StockSymbol { get; set; }
-        [Required(ErrorMessage = "Sell Order Quantity is required")]
+        [Required(ErrorMessage = "Buy Order Quantity is required")]
+        [Range(1, 10000, ErrorMessage = "Buy Order Quantity should be from 1 and 10000")]
         public double OrderQuantity { get; set; }
-        [Required(ErrorMessage = "Sell Order Price is required")]
+        [Required(ErrorMessage = "Buy Order Price is required")]
+        [Range(1, 10000, ErrorMessage = "Buy Order Price should be from 1 and 10000")]
         public double OrderPrice { get; set; }
-        [Required(ErrorMessage = "Order Date and Time is required")]
-        public DateTime? DateAndTimeOfOrder { get; set; }
+        public DateTime? DateAndTimeOfOrder { get; set; } = DateTime.Now;
 
-        public SellOrder ToSellOrder()
+        public Order ToOrder()
         {
-            return new SellOrder()
+            return new Order()
             {
                 StockName = StockName,
                 StockSymbol = StockSymbol,

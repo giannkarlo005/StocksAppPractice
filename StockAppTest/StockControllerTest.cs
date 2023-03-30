@@ -9,6 +9,8 @@ using StocksAppAssignment.Models;
 using ServiceContracts;
 using Entities;
 using static System.Collections.Specialized.BitVector32;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace StockAppTest
 {
@@ -17,20 +19,28 @@ namespace StockAppTest
         private readonly IConfiguration _configuration;
         private readonly IFinnhubService _finnhubService;
         private readonly IStocksService _stocksService;
+        private readonly ILogger<StocksController> _logger;
+        private readonly IDiagnosticContext _diagnosticContext;
 
         private readonly Mock<IConfiguration> _configurationMock;
         private readonly Mock<IFinnhubService> _finnhubServiceMock;
         private readonly Mock<IStocksService> _stocksServiceMock;
+        private readonly Mock<ILogger<StocksController>> _loggerMock;
+        private readonly Mock<IDiagnosticContext> _diagnosticContextMock;
 
         public StockControllerTest() 
         {
             _configurationMock = new Mock<IConfiguration>();
             _finnhubServiceMock = new Mock<IFinnhubService>();
             _stocksServiceMock = new Mock<IStocksService>();
+            _loggerMock = new Mock<ILogger<StocksController>>();
+            _diagnosticContextMock = new Mock<IDiagnosticContext>();
 
             _configuration = _configurationMock.Object;
             _finnhubService = _finnhubServiceMock.Object;
             _stocksService = _stocksServiceMock.Object;
+            _logger = _loggerMock.Object;
+            _diagnosticContext = _diagnosticContextMock.Object;
         }
 
         #region explore
@@ -38,8 +48,6 @@ namespace StockAppTest
         public async Task Explore_NullStockSymbol_ShouldReturnExploreView()
         {
             //Arrange
-            string? stockSymbol = null;
-
             List<USExchange> usExchange = new List<USExchange>()
             {
                 new USExchange()
@@ -374,7 +382,11 @@ namespace StockAppTest
             _finnhubServiceMock.Setup(mock => mock.GetAllStocks())
                                 .ReturnsAsync(usExchange);
 
-            StocksController stocksController = new StocksController(_configuration, _finnhubService, _stocksService);
+            StocksController stocksController = new StocksController(_configuration,
+                                                                     _finnhubService,
+                                                                     _stocksService,
+                                                                     _logger,
+                                                                     _diagnosticContext);
 
 
 

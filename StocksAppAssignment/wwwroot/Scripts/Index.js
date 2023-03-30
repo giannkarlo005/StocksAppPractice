@@ -39,11 +39,14 @@ var onBuyOrderClick = async () => {
         DateAndTimeOfOrder: null
     };
 
-    await fetch("/buy-order", {
+    var response = await fetch("/buy-order", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     })
+    var responseText = await response.text();
+    console.log(responseText);
 
+    //window.location.pathname = JSON.parse(responseText);
     //alertUser("Stock Successfully Queued for Buy");
 };

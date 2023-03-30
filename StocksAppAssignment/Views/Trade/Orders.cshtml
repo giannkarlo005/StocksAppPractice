@@ -20,7 +20,7 @@
         <div class="text-grey">Buy Orders</div>
         <br />
         <div class="flex flex-direction-vertical">
-            @foreach(BuyOrderResponse buyOrder in Model.BuyOrders)
+            @foreach(OrderResponse buyOrder in Model.BuyOrders)
             {
                 <div class="border-bottom">
                     <div class="mb">
@@ -41,7 +41,7 @@
         <div class="text-grey">Sell Orders</div>
         <br />
         <div class="flex flex-direction-vertical">
-            @foreach(SellOrderResponse sellOrder in Model.SellOrders)
+            @foreach(OrderResponse sellOrder in Model.SellOrders)
             {
                 <div class="border-bottom"> 
                     <div class="mb">

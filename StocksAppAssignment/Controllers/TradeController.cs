@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 
 using StocksAppAssignment.Models;
+using StocksAppAssignment.Filters.ActionFilters;
 using Entities;
 using ServiceContracts;
 using ServiceContracts.DTO;
@@ -45,17 +46,17 @@ namespace StocksAppAssignment.Controllers
 
         [Route("/")]
         [Route("/home")]
-        public IActionResult GetAllStocks()
+        public async Task<IActionResult> GetAllStocks()
         {
             _logger.LogInformation("GetAllStocks of TradeController");
 
             List<USExchange> usExchange = _finnhubService.GetAllStocks().Result;
 
-            return View(usExchange);
+            return View("GetAllStocks", usExchange);
         }
 
         [Route("/get-company-stockPrice/{stockSymbol}")]
-        public IActionResult Index(string? stockSymbol)
+        public async Task<IActionResult> Index(string? stockSymbol)
         {
             _logger.LogInformation("Index of TradeController");
             _logger.LogDebug($"StockSymbol: {stockSymbol}");
@@ -111,35 +112,41 @@ namespace StocksAppAssignment.Controllers
                 Price = companyStockPrice
             };
 
-            return View(companyProfile);
+            return View("Index", companyProfile);
         }
 
         [HttpPost]
         [Route("/buy-order")]
-        public void BuyOrder([FromBody] BuyOrderRequest buyOrderRequest)
+        //[TypeFilter(typeof(CreateOrderActionFilter))]
+        public async Task<IActionResult> BuyOrder([FromBody] OrderRequest orderRequest)
         {
             _logger.LogInformation("BuyOrder of TradeController");
-            _diagnosticContext.Set("BuyOrderRequest", buyOrderRequest);
+            _diagnosticContext.Set("BuyOrderRequest", orderRequest);
 
-            if (!buyOrderRequest.DateAndTimeOfOrder.HasValue)
+            if (!orderRequest.DateAndTimeOfOrder.HasValue)
             {
-                buyOrderRequest.DateAndTimeOfOrder = DateTime.Now;
+                orderRequest.DateAndTimeOfOrder = DateTime.Now;
             }
-            _stocksService.CreateBuyOrder(buyOrderRequest);
+            _stocksService.CreateBuyOrder(orderRequest);
+
+            return RedirectToAction("GetOrders", "Trade", orderRequest.StockSymbol);
         }
 
         [HttpPost]
         [Route("/sell-order")]
-        public void SellOrder([FromBody] SellOrderRequest sellOrderRequest)
+        [TypeFilter(typeof(CreateOrderActionFilter))]
+        public async Task<IActionResult> SellOrder([FromBody] OrderRequest orderRequest)
         {
             _logger.LogInformation("SellOrder of TradeController");
-            _diagnosticContext.Set("SellOrderRequest", sellOrderRequest);
+            _diagnosticContext.Set("SellOrderRequest", orderRequest);
 
-            if (!sellOrderRequest.DateAndTimeOfOrder.HasValue)
+            if (!orderRequest.DateAndTimeOfOrder.HasValue)
             {
-                sellOrderRequest.DateAndTimeOfOrder = DateTime.Now;
+                orderRequest.DateAndTimeOfOrder = DateTime.Now;
             }
-            _stocksService.CreateSellOrder(sellOrderRequest);
+            _stocksService.CreateSellOrder(orderRequest);
+
+            return RedirectToAction("GetOrders", "Trade", orderRequest.StockSymbol);
         }
 
         [Route("/get-orders/{stockSymbol?}")]
@@ -154,11 +161,11 @@ namespace StocksAppAssignment.Controllers
             }
 
             ViewBag.StockSymbol = stockSymbol;
-            IEnumerable<BuyOrderResponse> filteredBuyOrders = _stocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol);
-            IEnumerable<SellOrderResponse> filteredSellOrders = _stocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol);
+            IEnumerable<OrderResponse> filteredBuyOrders = _stocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol);
+            IEnumerable<OrderResponse> filteredSellOrders = _stocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol);
 
-            List<BuyOrderResponse> buyOrders = filteredBuyOrders.ToList();
-            List<SellOrderResponse> sellOrders = filteredSellOrders.ToList();
+            List<OrderResponse> buyOrders = filteredBuyOrders.ToList();
+            List<OrderResponse> sellOrders = filteredSellOrders.ToList();
 
             Orders stockTrade = new Orders()
             {
@@ -176,16 +183,16 @@ namespace StocksAppAssignment.Controllers
             _logger.LogDebug($"StockSymbol: {stockSymbol}");
 
             ViewBag.StockSymbol = stockSymbol;
-            IEnumerable<BuyOrderResponse> filteredBuyOrders = _stocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol); ;
-            IEnumerable<SellOrderResponse> filteredSellOrders = _stocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol); ;
+            IEnumerable<OrderResponse> filteredBuyOrders = _stocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol); ;
+            IEnumerable<OrderResponse> filteredSellOrders = _stocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol); ;
 
-            List<BuyOrderResponse> buyOrderResponses = filteredBuyOrders.ToList();
-            List<SellOrderResponse> sellOrderResponses = filteredSellOrders.ToList();
+            List<OrderResponse> buyOrderResponses = filteredBuyOrders.ToList();
+            List<OrderResponse> sellOrderResponses = filteredSellOrders.ToList();
 
             List<OrderSummary> orderSummaryList = new List<OrderSummary>();
 
 
-            foreach (BuyOrderResponse buyOrder in buyOrderResponses)
+            foreach (OrderResponse buyOrder in buyOrderResponses)
             {
                 double orderQuantity = buyOrder.OrderQuantity;
                 double orderPrice = buyOrder.OrderPrice;
@@ -204,7 +211,7 @@ namespace StocksAppAssignment.Controllers
                 orderSummaryList.Add(orderSummary);
             }
 
-            foreach (SellOrderResponse sellOrder in sellOrderResponses)
+            foreach (OrderResponse sellOrder in sellOrderResponses)
             {
                 double orderQuantity = sellOrder.OrderQuantity;
                 double orderPrice = sellOrder.OrderPrice;

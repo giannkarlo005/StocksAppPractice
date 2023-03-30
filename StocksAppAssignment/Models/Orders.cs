@@ -5,8 +5,8 @@ namespace StocksAppAssignment.Models
 {
     public class Orders
     {
-        public List<BuyOrderResponse> BuyOrders { get; set; }
-        public List<SellOrderResponse> SellOrders { get; set; }
+        public List<OrderResponse> BuyOrders { get; set; }
+        public List<OrderResponse> SellOrders { get; set; }
     }
 
     public class OrderSummary

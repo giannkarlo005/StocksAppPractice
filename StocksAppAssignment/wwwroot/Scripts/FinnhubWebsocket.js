@@ -1,6 +1,7 @@
 ﻿var socket = new WebSocket(`wss://ws.finnhub.io?token=${finnhubToken}`);
 
-socket.onopen = function() {
+socket.onopen = function () {
+    console.log('window.onopen');
     var obj = {
         'type': 'subscribe',
         'symbol': stockSymbol
@@ -9,8 +10,7 @@ socket.onopen = function() {
 };
 
 socket.onmessage = function (e) {
-    console.log('socket');
-    console.log(e);
+    console.log('window.onmessage');
     if (e.data.type == 'error') {
         return;
     }
@@ -19,10 +19,11 @@ socket.onmessage = function (e) {
         return;
     }
 
-    document.getElementById("stock-price").innerHTML = response.data[0].p;
+    document.getElementById("stock-price").innerHTML = eventData.data[0].p;
 };
 
-window.onclose = function() {
+window.onclose = function () {
+    console.log('window.onclose');
     var obj = {
         'type': 'unsubscribe',
         'symbol': stockSymbol
