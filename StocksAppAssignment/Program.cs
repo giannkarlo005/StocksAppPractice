@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Entities;
 using StocksAppAssignment;
+using StocksAppAssignment.Middleware;
 using Services;
 using ServiceContracts;
 
@@ -9,9 +10,12 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
+
 builder.Services.Configure<FinnhubApiOptions>(builder.Configuration.GetSection("finnhubapi"));
+
 builder.Services.AddScoped<IFinnhubService, FinnhubService>();
 builder.Services.AddScoped<IStocksService, StocksService>();
+
 builder.Services.AddDbContext<StockMarketDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -33,6 +37,16 @@ builder.Host.ConfigureLogging(logger =>
 });
 
 var app = builder.Build();
+
+if (builder.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandlingMiddleware();
+}
 
 if(builder.Environment.IsEnvironment("Test") == false)
 {
