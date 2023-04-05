@@ -16,30 +16,33 @@ namespace StocksAppAssignment.Controllers
     public class TradeController : Controller
     {
         private readonly IFinnhubService _finnhubService;
-        private readonly IStocksService _stocksService;
+        private readonly ICreateStockOrdersService _createStocksService;
+        private readonly IGetStockOrdersService _getStocksService;
         private readonly ILogger<TradeController> _logger;
         private readonly IDiagnosticContext _diagnosticContext;
 
-        private readonly FinnhubApiOptions _finnhubApiOptions;
+        private readonly FinnhubApiOptions? _finnhubApiOptions;
 
-        private readonly string FinnhubURL = "";
-        private readonly string FinnhubToken = "";
+        private readonly string? FinnhubURL = "";
+        private readonly string? FinnhubToken = "";
 
         public TradeController(IOptions<FinnhubApiOptions> finnhubApiOptions,
                                IFinnhubService finnhubService,
-                               IStocksService stocksService,
+                               ICreateStockOrdersService createStocksService,
+                               IGetStockOrdersService getStocksService,
                                ILogger<TradeController> logger,
                                IDiagnosticContext diagnosticContext)
         {
             _finnhubApiOptions = finnhubApiOptions.Value;
             _finnhubService = finnhubService;
 
-            FinnhubURL = _finnhubApiOptions.FinnhubURL;
-            FinnhubToken = _finnhubApiOptions.FinnhubToken;
+            FinnhubURL = _finnhubApiOptions?.FinnhubURL ?? "";
+            FinnhubToken = _finnhubApiOptions?.FinnhubToken ?? "";
 
             _finnhubService.SetFinnhubUrlToken(FinnhubURL, FinnhubToken);
 
-            _stocksService = stocksService;
+            _createStocksService = createStocksService;
+            _getStocksService = getStocksService;
             _logger = logger;
             _diagnosticContext = diagnosticContext;
         }
@@ -63,7 +66,7 @@ namespace StocksAppAssignment.Controllers
 
             if (String.IsNullOrEmpty(stockSymbol))
             {
-                return null;
+                return BadRequest("Stock Symbol should not be empty");
             }
 
             ViewBag.FinnhubToken = FinnhubToken;
@@ -72,9 +75,9 @@ namespace StocksAppAssignment.Controllers
             Dictionary<string, object>? companyProfileDict = _finnhubService.GetCompanyProfile(stockSymbol).Result;
             Dictionary<string, object>? companyStockPriceDict = _finnhubService.GetStockPriceQuote(stockSymbol).Result;
 
-            string companyName = "";
+            string? companyName = "";
             double companyStockPrice = 0;
-            string companyLogo = "";
+            string? companyLogo = "";
 
             if (companyProfileDict == null || companyStockPriceDict == null)
             {
@@ -127,7 +130,7 @@ namespace StocksAppAssignment.Controllers
             {
                 orderRequest.DateAndTimeOfOrder = DateTime.Now;
             }
-            _stocksService.CreateBuyOrder(orderRequest);
+            _createStocksService.CreateBuyOrder(orderRequest);
 
             return RedirectToAction("GetOrders", "Trade", orderRequest.StockSymbol);
         }
@@ -144,7 +147,7 @@ namespace StocksAppAssignment.Controllers
             {
                 orderRequest.DateAndTimeOfOrder = DateTime.Now;
             }
-            _stocksService.CreateSellOrder(orderRequest);
+            _createStocksService.CreateSellOrder(orderRequest);
 
             return RedirectToAction("GetOrders", "Trade", orderRequest.StockSymbol);
         }
@@ -157,12 +160,12 @@ namespace StocksAppAssignment.Controllers
 
             if (String.IsNullOrEmpty(stockSymbol))
             {
-                return null;
+                return BadRequest("Stock Symbol should not be empty");
             }
 
             ViewBag.StockSymbol = stockSymbol;
-            IEnumerable<OrderResponse> filteredBuyOrders = _stocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol);
-            IEnumerable<OrderResponse> filteredSellOrders = _stocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol);
+            IEnumerable<OrderResponse> filteredBuyOrders = _getStocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol);
+            IEnumerable<OrderResponse> filteredSellOrders = _getStocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol);
 
             List<OrderResponse> buyOrders = filteredBuyOrders.ToList();
             List<OrderResponse> sellOrders = filteredSellOrders.ToList();
@@ -183,8 +186,8 @@ namespace StocksAppAssignment.Controllers
             _logger.LogDebug($"StockSymbol: {stockSymbol}");
 
             ViewBag.StockSymbol = stockSymbol;
-            IEnumerable<OrderResponse> filteredBuyOrders = _stocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol); ;
-            IEnumerable<OrderResponse> filteredSellOrders = _stocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol); ;
+            IEnumerable<OrderResponse> filteredBuyOrders = _getStocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol); ;
+            IEnumerable<OrderResponse> filteredSellOrders = _getStocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol); ;
 
             List<OrderResponse> buyOrderResponses = filteredBuyOrders.ToList();
             List<OrderResponse> sellOrderResponses = filteredSellOrders.ToList();

@@ -26,9 +26,9 @@ namespace StocksAppAssignment.Controllers.ViewComponents
             foreach (var section in finnhubApiOptions)
             {
                 if (section.Key == "FinnhubURL")
-                    FinnhubURL = section.Value;
+                    FinnhubURL = section.Value ?? "";
                 if (section.Key == "FinnhubToken")
-                    FinnhubToken = section.Value;
+                    FinnhubToken = section.Value ?? "" ;
             }
 
 

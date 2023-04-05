@@ -13,7 +13,6 @@ namespace StocksAppAssignment.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IFinnhubService _finnhubService;
-        private readonly IStocksService _stocksService;
 
         private readonly ILogger<StocksController> _logger;
         private readonly IDiagnosticContext _diagnosticContext;
@@ -23,13 +22,11 @@ namespace StocksAppAssignment.Controllers
 
         public StocksController(IConfiguration configuration,
                                 IFinnhubService finnhubService,
-                                IStocksService stocksService,
                                 ILogger<StocksController> logger,
                                 IDiagnosticContext diagnosticContext) 
         { 
             _configuration = configuration;
             _finnhubService = finnhubService;
-            _stocksService = stocksService;
 
             _logger = logger;
             _diagnosticContext = diagnosticContext;
@@ -39,9 +36,9 @@ namespace StocksAppAssignment.Controllers
             foreach (var section in finnhubApiOptions)
             {
                 if (section.Key == "FinnhubURL")
-                    FinnhubURL = section.Value;
+                    FinnhubURL = section.Value ?? "";
                 if (section.Key == "FinnhubToken")
-                    FinnhubToken = section.Value;
+                    FinnhubToken = section.Value ?? "";
             }
             
             _finnhubService.SetFinnhubUrlToken(FinnhubURL, FinnhubToken);
@@ -57,7 +54,7 @@ namespace StocksAppAssignment.Controllers
             {
                 if (section.Key == "Top25PopularStocks")
                 {
-                    top25StocksStr = section.Value;
+                    top25StocksStr = section.Value ?? "";
                     break;
                 }
             }
@@ -94,19 +91,19 @@ namespace StocksAppAssignment.Controllers
             _logger.LogInformation("getCompanyProfile of StocksController");
             _logger.LogDebug($"StockSymbol: {StockSymbol}");
 
-            string companyName = "";
-            string companyLogo = "";
-            string country = "";
-            string currency = "";
-            string exchange = "";
-            string finnhubIndustry = "";
-            string marketCapitalization = "";
-            string webURL = "";
+            string? companyName = "";
+            string? companyLogo = "";
+            string? country = "";
+            string? currency = "";
+            string? exchange = "";
+            string? finnhubIndustry = "";
+            string? marketCapitalization = "";
+            string? webURL = "";
 
             Dictionary<string, object>? companyProfileDict = _finnhubService.GetCompanyProfile(StockSymbol).Result;
             _diagnosticContext.Set("CompanyProfileDictionary", companyProfileDict);
 
-            if (companyProfileDict.IsNullOrEmpty())
+            if (companyProfileDict == null)
             {
                 throw new ArgumentException("Stock Symbol not found");
             }
@@ -180,20 +177,30 @@ namespace StocksAppAssignment.Controllers
         [Route("stocks/explore")]
         public IActionResult Explore([FromBody] string? StockSymbol)
         {
+            if (String.IsNullOrEmpty(StockSymbol))
+            {
+                return BadRequest("Stock Symbol should not be empty");
+            }
+
             _logger.LogInformation("Post Explore of StocksController");
             _logger.LogDebug($"StockSymbol: {StockSymbol}");
 
             ViewBag.StockSymbol = StockSymbol;
 
             double companyStockPrice = 0;
-            Dictionary<string, object>? companyStockPriceDict = _finnhubService.GetStockPriceQuote(StockSymbol).Result;
-            foreach (string key in companyStockPriceDict.Keys)
+            Dictionary<string, object>? companyStockPriceDict = new Dictionary<string, object>();
+
+            companyStockPriceDict = _finnhubService.GetStockPriceQuote(StockSymbol).Result;
+            if (companyStockPriceDict != null)
             {
-                switch (key)
+                foreach (string key in companyStockPriceDict.Keys)
                 {
-                    case "c":
-                        companyStockPrice = Convert.ToDouble(Convert.ToString(companyStockPriceDict[key]));
-                        break;
+                    switch (key)
+                    {
+                        case "c":
+                            companyStockPrice = Convert.ToDouble(Convert.ToString(companyStockPriceDict[key]));
+                            break;
+                    }
                 }
             }
 

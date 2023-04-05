@@ -18,13 +18,11 @@ namespace StockAppTest
     {
         private readonly IConfiguration _configuration;
         private readonly IFinnhubService _finnhubService;
-        private readonly IStocksService _stocksService;
         private readonly ILogger<StocksController> _logger;
         private readonly IDiagnosticContext _diagnosticContext;
 
         private readonly Mock<IConfiguration> _configurationMock;
         private readonly Mock<IFinnhubService> _finnhubServiceMock;
-        private readonly Mock<IStocksService> _stocksServiceMock;
         private readonly Mock<ILogger<StocksController>> _loggerMock;
         private readonly Mock<IDiagnosticContext> _diagnosticContextMock;
 
@@ -32,13 +30,11 @@ namespace StockAppTest
         {
             _configurationMock = new Mock<IConfiguration>();
             _finnhubServiceMock = new Mock<IFinnhubService>();
-            _stocksServiceMock = new Mock<IStocksService>();
             _loggerMock = new Mock<ILogger<StocksController>>();
             _diagnosticContextMock = new Mock<IDiagnosticContext>();
 
             _configuration = _configurationMock.Object;
             _finnhubService = _finnhubServiceMock.Object;
-            _stocksService = _stocksServiceMock.Object;
             _logger = _loggerMock.Object;
             _diagnosticContext = _diagnosticContextMock.Object;
         }
@@ -384,7 +380,6 @@ namespace StockAppTest
 
             StocksController stocksController = new StocksController(_configuration,
                                                                      _finnhubService,
-                                                                     _stocksService,
                                                                      _logger,
                                                                      _diagnosticContext);
 

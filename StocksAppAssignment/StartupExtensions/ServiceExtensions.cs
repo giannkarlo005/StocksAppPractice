@@ -16,7 +16,8 @@ namespace StocksAppAssignment.StartupExtensions
             services.Configure<FinnhubApiOptions>(configuration.GetSection("finnhubapi"));
 
             services.AddScoped<IFinnhubService, FinnhubService>();
-            services.AddScoped<IStocksService, StocksService>();
+            services.AddScoped<ICreateStockOrdersService, CreateStockOrdersService>();
+            services.AddScoped<IGetStockOrdersService, GetStockOrdersService>();
 
             services.AddDbContext<StockMarketDbContext>(options =>
             {

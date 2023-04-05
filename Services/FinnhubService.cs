@@ -35,9 +35,9 @@ namespace Services
         {
             string url = _finnhubURL + "/stock/symbol?exchange=US&token=" + _finnhubToken;
             HttpResponseMessage response = GetAsyncUrl(url).Result;
-            List<USExchange> usExchange = await response.Content.ReadFromJsonAsync<List<USExchange>>();
+            List<USExchange>? usExchange = await response.Content.ReadFromJsonAsync<List<USExchange>>();
 
-            return usExchange;
+            return usExchange ?? new List<USExchange>();
         }
 
         public async Task<Dictionary<string, object>?> GetCompanyProfile(string companySymbol)
