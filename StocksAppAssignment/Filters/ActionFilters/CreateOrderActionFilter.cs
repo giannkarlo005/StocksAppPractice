@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+
 using ServiceContracts.DTO;
 using StocksAppAssignment.Controllers;
-using StocksAppAssignment.Models;
 
 namespace StocksAppAssignment.Filters.ActionFilters
 {

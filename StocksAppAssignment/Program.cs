@@ -1,25 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-
-using Entities;
-using StocksAppAssignment;
 using StocksAppAssignment.Middleware;
-using Services;
-using ServiceContracts;
 
 using Serilog;
+using StocksAppAssignment.StartupExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllersWithViews();
 
-builder.Services.Configure<FinnhubApiOptions>(builder.Configuration.GetSection("finnhubapi"));
-
-builder.Services.AddScoped<IFinnhubService, FinnhubService>();
-builder.Services.AddScoped<IStocksService, StocksService>();
-
-builder.Services.AddDbContext<StockMarketDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+//Startup Extensions
+builder.Services.ConfigureServicesExtension(builder.Configuration);
 
 //Serilog
 builder.Host.UseSerilog((HostBuilderContext context, IServiceProvider serviceProvider, LoggerConfiguration loggerConfiguration) =>
