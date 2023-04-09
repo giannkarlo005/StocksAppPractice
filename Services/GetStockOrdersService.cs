@@ -18,7 +18,7 @@ namespace Services
             _logger = logger;
         }
 
-        public List<OrderResponse> GetAllBuyOrders()
+        public virtual List<OrderResponse> GetAllBuyOrders()
         {
             _logger.LogInformation("GetAllBuyOrders of StocksService");
 
@@ -26,7 +26,7 @@ namespace Services
             return buyOrders.Select(buyOrder => buyOrder.ToOrderResponse()).ToList();
         }
 
-        public List<OrderResponse> GetAllSellOrders()
+        public virtual List<OrderResponse> GetAllSellOrders()
         {
             _logger.LogInformation("GetAllSellOrders of StocksService");
 
