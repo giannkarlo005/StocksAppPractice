@@ -15,3 +15,5 @@ Services/bin/
 StockAppTest/obj/
 StocksAppAssignment/obj/
 StocksAppAssignment/logs/
+StocksAppAssignment.Infrastructure/obj/
+StocksAppAssignment.Core/obj/

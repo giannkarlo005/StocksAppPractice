@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-using StocksAppAssignment.Models;
-using StocksAppAssignment.Filters.ActionFilters;
-using Entities;
-using ServiceContracts;
-using ServiceContracts.DTO;
-
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using Serilog;
 
-namespace StocksAppAssignment.Controllers
+using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.ServiceContracts;
+using StocksAppAssignment.UI.Filters.ActionFilters;
+using StocksAppAssignment.UI.Models;
+
+namespace StocksAppAssignment.UI.Controllers
 {
     public class TradeController : Controller
     {
@@ -53,7 +52,7 @@ namespace StocksAppAssignment.Controllers
         {
             _logger.LogInformation("GetAllStocks of TradeController");
 
-            List<USExchange> usExchange = _finnhubService.GetAllStocks().Result;
+            List<USExchange> usExchange = await _finnhubService.GetAllStocks();
 
             return View("GetAllStocks", usExchange);
         }
@@ -72,8 +71,8 @@ namespace StocksAppAssignment.Controllers
             ViewBag.FinnhubToken = FinnhubToken;
             ViewBag.StockSymbol = stockSymbol;
 
-            Dictionary<string, object>? companyProfileDict = _finnhubService.GetCompanyProfile(stockSymbol).Result;
-            Dictionary<string, object>? companyStockPriceDict = _finnhubService.GetStockPriceQuote(stockSymbol).Result;
+            Dictionary<string, object>? companyProfileDict = await _finnhubService.GetCompanyProfile(stockSymbol);
+            Dictionary<string, object>? companyStockPriceDict = await _finnhubService.GetStockPriceQuote(stockSymbol);
 
             string? companyName = "";
             double companyStockPrice = 0;
@@ -130,7 +129,7 @@ namespace StocksAppAssignment.Controllers
             {
                 orderRequest.DateAndTimeOfOrder = DateTime.Now;
             }
-            _createStocksService.CreateBuyOrder(orderRequest);
+            await _createStocksService.CreateBuyOrder(orderRequest);
 
             return RedirectToAction("GetOrders", "Trade", orderRequest.StockSymbol);
         }
@@ -147,13 +146,13 @@ namespace StocksAppAssignment.Controllers
             {
                 orderRequest.DateAndTimeOfOrder = DateTime.Now;
             }
-            _createStocksService.CreateSellOrder(orderRequest);
+            await _createStocksService.CreateSellOrder(orderRequest);
 
             return RedirectToAction("GetOrders", "Trade", orderRequest.StockSymbol);
         }
 
         [Route("/get-orders/{stockSymbol?}")]
-        public IActionResult GetOrders(string? stockSymbol)
+        public async Task<IActionResult> GetOrders(string? stockSymbol)
         {
             _logger.LogInformation("GetOrders of TradeController");
             _logger.LogDebug($"StockSymbol: {stockSymbol}");
@@ -164,11 +163,9 @@ namespace StocksAppAssignment.Controllers
             }
 
             ViewBag.StockSymbol = stockSymbol;
-            IEnumerable<OrderResponse> filteredBuyOrders = _getStocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol);
-            IEnumerable<OrderResponse> filteredSellOrders = _getStocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol);
 
-            List<OrderResponse> buyOrders = filteredBuyOrders.ToList();
-            List<OrderResponse> sellOrders = filteredSellOrders.ToList();
+            List<OrderResponse> buyOrders = await _getStocksService.GetFilteredBuyOrders(stockSymbol);
+            List<OrderResponse> sellOrders = await _getStocksService.GetFilteredSellOrders(stockSymbol);
 
             Orders stockTrade = new Orders()
             {
@@ -180,22 +177,20 @@ namespace StocksAppAssignment.Controllers
         }
 
         [Route("/orders-pdf/{stockSymbol}")]
-        public IActionResult OrdersPDF(string stockSymbol)
+        public async Task<IActionResult> OrdersPDF(string stockSymbol)
         {
             _logger.LogInformation("OrdersPDF of TradeController");
             _logger.LogDebug($"StockSymbol: {stockSymbol}");
 
             ViewBag.StockSymbol = stockSymbol;
-            IEnumerable<OrderResponse> filteredBuyOrders = _getStocksService.GetAllBuyOrders().Where(x => x.StockSymbol == stockSymbol); ;
-            IEnumerable<OrderResponse> filteredSellOrders = _getStocksService.GetAllSellOrders().Where(x => x.StockSymbol == stockSymbol); ;
 
-            List<OrderResponse> buyOrderResponses = filteredBuyOrders.ToList();
-            List<OrderResponse> sellOrderResponses = filteredSellOrders.ToList();
+            List<OrderResponse> buyOrders = await _getStocksService.GetFilteredBuyOrders(stockSymbol);
+            List<OrderResponse> sellOrders = await _getStocksService.GetFilteredSellOrders(stockSymbol);
 
             List<OrderSummary> orderSummaryList = new List<OrderSummary>();
 
 
-            foreach (OrderResponse buyOrder in buyOrderResponses)
+            foreach (OrderResponse buyOrder in buyOrders)
             {
                 double orderQuantity = buyOrder.OrderQuantity;
                 double orderPrice = buyOrder.OrderPrice;
@@ -214,7 +209,7 @@ namespace StocksAppAssignment.Controllers
                 orderSummaryList.Add(orderSummary);
             }
 
-            foreach (OrderResponse sellOrder in sellOrderResponses)
+            foreach (OrderResponse sellOrder in sellOrders)
             {
                 double orderQuantity = sellOrder.OrderQuantity;
                 double orderPrice = sellOrder.OrderPrice;

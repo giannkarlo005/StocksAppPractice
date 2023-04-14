@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Entities;
-using ServiceContracts;
-using Services;
+using StocksAppAssignment.Core.RepositoryContracts;
+using StocksAppAssignment.Core.Services;
+using StocksAppAssignment.Core.ServiceContracts;
+using StocksAppAssignment.Infrastructure.DatabaseContext;
+using StocksAppAssignment.Infrastructure.Repository;
 
-namespace StocksAppAssignment.StartupExtensions
+namespace StocksAppAssignment.UI.StartupExtensions
 {
     public static class ServiceExtensions
     {
@@ -18,6 +20,7 @@ namespace StocksAppAssignment.StartupExtensions
             services.AddScoped<IFinnhubService, FinnhubService>();
             services.AddScoped<ICreateStockOrdersService, CreateStockOrdersService>();
             services.AddScoped<IGetStockOrdersService, GetStockOrdersService>();
+            services.AddScoped<IStockMarketRepository, StockMarketRepository>();
 
             services.AddDbContext<StockMarketDbContext>(options =>
             {

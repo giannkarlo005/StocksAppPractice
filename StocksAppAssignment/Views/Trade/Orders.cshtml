@@ -7,6 +7,10 @@
 
     string FormatDateTime(DateTime? dateTime)
     {
+        if(dateTime == null)
+        {
+            return "";
+        }
         return dateTime.Value.ToString("dd MMMM yyyy HH:mm:ss tt");
     }
 }

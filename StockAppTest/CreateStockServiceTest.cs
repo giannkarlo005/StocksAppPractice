@@ -2,8 +2,8 @@
 using FluentAssertions;
 using Moq;
 
-using ServiceContracts;
-using ServiceContracts.DTO;
+using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.ServiceContracts;
 
 namespace StockAppTest
 {
@@ -126,15 +126,15 @@ namespace StockAppTest
 
         //When All values supplied are valid
         [Fact]
-        public void BuyOrder_AllValuesAreValid()
+        public async void BuyOrder_AllValuesAreValid()
         {
             OrderRequest orderRequest = _fixture.Create<OrderRequest>();
             OrderResponse orderResponseExpected = _fixture.Create<OrderResponse>();
 
             _stocksServiceMock.Setup(mock => mock.CreateBuyOrder(It.IsAny<OrderRequest>()))
-                              .Returns(orderResponseExpected);
+                              .ReturnsAsync(orderResponseExpected);
 
-            OrderResponse buyOrderResponseActual = _stocksService.CreateBuyOrder(orderRequest);
+            OrderResponse buyOrderResponseActual = await _stocksService.CreateBuyOrder(orderRequest);
             buyOrderResponseActual.Should().BeEquivalentTo(orderResponseExpected);
         }
         #endregion
@@ -256,15 +256,15 @@ namespace StockAppTest
 
         //When All values supplied are valid
         [Fact]
-        public void SellOrder_AllValuesAreValid()
+        public async void SellOrder_AllValuesAreValid()
         {
             OrderRequest sellOrderRequest = _fixture.Create<OrderRequest>();
             OrderResponse sellOrderResponseExpected = _fixture.Create<OrderResponse>();
 
             _stocksServiceMock.Setup(mock => mock.CreateSellOrder(It.IsAny<OrderRequest>()))
-                              .Returns(sellOrderResponseExpected);
+                              .ReturnsAsync(sellOrderResponseExpected);
 
-            OrderResponse sellOrderResponseActual = _stocksService.CreateSellOrder(sellOrderRequest);
+            OrderResponse sellOrderResponseActual = await _stocksService.CreateSellOrder(sellOrderRequest);
             sellOrderResponseActual.Should().BeEquivalentTo(sellOrderResponseExpected);
         }
         #endregion

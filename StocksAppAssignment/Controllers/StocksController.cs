@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-
-using Entities;
-using ServiceContracts;
-using StocksAppAssignment.Models;
 
 using Serilog;
 
-namespace StocksAppAssignment.Controllers
+using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.ServiceContracts;
+using StocksAppAssignment.UI.Models;
+
+namespace StocksAppAssignment.UI.Controllers
 {
     public class StocksController : Controller
     {

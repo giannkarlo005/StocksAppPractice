@@ -1,16 +1,15 @@
-﻿using Moq;
-using FluentAssertions;
-
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Mvc;
-
-using StocksAppAssignment.Controllers;
-using StocksAppAssignment.Models;
-using ServiceContracts;
-using Entities;
-using static System.Collections.Specialized.BitVector32;
 using Microsoft.Extensions.Logging;
+
+using FluentAssertions;
+using Moq;
 using Serilog;
+
+using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.ServiceContracts;
+using StocksAppAssignment.UI.Controllers;
+using StocksAppAssignment.UI.Models;
 
 namespace StockAppTest
 {

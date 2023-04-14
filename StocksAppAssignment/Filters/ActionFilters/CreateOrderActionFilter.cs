@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-using ServiceContracts.DTO;
-using StocksAppAssignment.Controllers;
+using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.UI.Controllers;
 
-namespace StocksAppAssignment.Filters.ActionFilters
+namespace StocksAppAssignment.UI.Filters.ActionFilters
 {
     public class CreateOrderActionFilter : IAsyncActionFilter
     {

@@ -1,4 +1,4 @@
-﻿namespace StocksAppAssignment.Models
+﻿namespace StocksAppAssignment.UI.Models
 {
     public class Stock
     {

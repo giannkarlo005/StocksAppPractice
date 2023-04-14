@@ -1,7 +1,8 @@
-﻿using Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace StocksAppAssignment.Controllers.ViewComponents
+using StocksAppAssignment.Core.DTO;
+
+namespace StocksAppAssignment.UI.Controllers.ViewComponents
 {
     [ViewComponent]
     public class AllStocksViewComponent: ViewComponent

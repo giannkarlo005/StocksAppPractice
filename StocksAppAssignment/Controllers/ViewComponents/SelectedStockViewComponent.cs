@@ -1,11 +1,11 @@
-﻿using StocksAppAssignment.Models;
+﻿using StocksAppAssignment.UI.Models;
 
 using Microsoft.AspNetCore.Mvc;
-using Entities;
-using ServiceContracts;
-using Microsoft.IdentityModel.Tokens;
 
-namespace StocksAppAssignment.Controllers.ViewComponents
+using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.ServiceContracts;
+
+namespace StocksAppAssignment.UI.Controllers.ViewComponents
 {
     [ViewComponent]
     public class SelectedStockViewComponent: ViewComponent

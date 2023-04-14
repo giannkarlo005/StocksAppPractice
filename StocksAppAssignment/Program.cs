@@ -1,7 +1,7 @@
-using StocksAppAssignment.Middleware;
+using StocksAppAssignment.UI.Middleware;
 
 using Serilog;
-using StocksAppAssignment.StartupExtensions;
+using StocksAppAssignment.UI.StartupExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

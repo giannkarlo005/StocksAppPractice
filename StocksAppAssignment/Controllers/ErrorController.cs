@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StocksAppAssignment.Controllers
+namespace StocksAppAssignment.UI.Controllers
 {
     public class ErrorController : Controller
     {

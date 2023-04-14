@@ -1,13 +1,15 @@
-﻿using AutoFixture;
-using FluentAssertions;
-using Moq;
-using ServiceContracts;
-using ServiceContracts.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using AutoFixture;
+using FluentAssertions;
+using Moq;
+
+using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.ServiceContracts;
 
 namespace StockAppTest
 {
@@ -35,19 +37,19 @@ namespace StockAppTest
         #region GetAllBuyOrders
         //If invoked by default, returned list should be empty
         [Fact]
-        public void GetAllBuyOrders_DefaultResponse()
+        public async void GetAllBuyOrders_DefaultResponse()
         {
             _getStocksServiceMock.Setup(mock => mock.GetAllBuyOrders())
-                              .Returns(new List<OrderResponse>());
+                                 .ReturnsAsync(new List<OrderResponse>());
 
-            List<OrderResponse> buyOrders = _getStocksService.GetAllBuyOrders();
+            List<OrderResponse> buyOrders = await _getStocksService.GetAllBuyOrders();
 
             buyOrders.Should().BeEmpty();
         }
 
         //When supplied SellOrderQuantity is 0
         [Fact]
-        public void GetAllBuyOrders_AddFewBuyOrders()
+        public async void GetAllBuyOrders_AddFewBuyOrders()
         {
             OrderRequest orderRequest1 = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 100)
@@ -72,21 +74,21 @@ namespace StockAppTest
 
 
             _createStocksServiceMock.Setup(mock => mock.CreateBuyOrder(It.IsAny<OrderRequest>()))
-                              .Returns(buyOrderResponseExpected);
+                                    .ReturnsAsync(buyOrderResponseExpected);
 
-            OrderResponse orderResponse1 = _createStocksService.CreateBuyOrder(orderRequest1);
-            OrderResponse orderResponse2 = _createStocksService.CreateBuyOrder(orderRequest2);
-            OrderResponse orderResponse3 = _createStocksService.CreateBuyOrder(orderRequest3);
+            OrderResponse orderResponse1 = await _createStocksService.CreateBuyOrder(orderRequest1);
+            OrderResponse orderResponse2 = await _createStocksService.CreateBuyOrder(orderRequest2);
+            OrderResponse orderResponse3 = await _createStocksService.CreateBuyOrder(orderRequest3);
 
             _getStocksServiceMock.Setup(mock => mock.GetAllBuyOrders())
-                              .Returns(new List<OrderResponse>()
-                              {
-                                  orderResponse1,
-                                  orderResponse2,
-                                  orderResponse3,
-                              });
+                                 .ReturnsAsync(new List<OrderResponse>()
+                                 {
+                                     orderResponse1,
+                                     orderResponse2,
+                                     orderResponse3,
+                                 });
 
-            List<OrderResponse> buyOrders = _getStocksService.GetAllBuyOrders();
+            List<OrderResponse> buyOrders = await _getStocksService.GetAllBuyOrders();
 
             orderResponse1.OrderID.Should().NotBe(Guid.Empty);
             orderResponse2.OrderID.Should().NotBe(Guid.Empty);
@@ -101,19 +103,19 @@ namespace StockAppTest
         #region GetAllSellOrders
         //If invoked by default, returned list should be empty
         [Fact]
-        public void GetAllSellOrders_DefaultResponse()
+        public async void GetAllSellOrders_DefaultResponse()
         {
             _getStocksServiceMock.Setup(mock => mock.GetAllSellOrders())
-                  .Returns(new List<OrderResponse>());
+                                 .ReturnsAsync(new List<OrderResponse>());
 
-            List<OrderResponse> sellOrders = _getStocksService.GetAllSellOrders();
+            List<OrderResponse> sellOrders = await _getStocksService.GetAllSellOrders();
 
             sellOrders.Should().BeEmpty();
         }
 
         //When supplied SellOrderQuantity is 0
         [Fact]
-        public void GetAllSellOrders_AddFewBuyOrders()
+        public async void GetAllSellOrders_AddFewBuyOrders()
         {
             OrderRequest orderRequest1 = _fixture.Build<OrderRequest>()
                                               .With(request => request.OrderQuantity, 100)
@@ -137,21 +139,21 @@ namespace StockAppTest
             OrderResponse sellOrderResponseExpected = _fixture.Create<OrderResponse>();
 
             _createStocksServiceMock.Setup(mock => mock.CreateSellOrder(It.IsAny<OrderRequest>()))
-                              .Returns(sellOrderResponseExpected);
+                                    .ReturnsAsync(sellOrderResponseExpected);
 
-            OrderResponse sellOrderResponse1 = _createStocksService.CreateSellOrder(orderRequest1);
-            OrderResponse sellOrderResponse2 = _createStocksService.CreateSellOrder(orderRequest2);
-            OrderResponse sellOrderResponse3 = _createStocksService.CreateSellOrder(orderRequest3);
+            OrderResponse? sellOrderResponse1 = await _createStocksService.CreateSellOrder(orderRequest1);
+            OrderResponse? sellOrderResponse2 = await _createStocksService.CreateSellOrder(orderRequest2);
+            OrderResponse? sellOrderResponse3 = await _createStocksService.CreateSellOrder(orderRequest3);
 
             _getStocksServiceMock.Setup(mock => mock.GetAllSellOrders())
-                              .Returns(new List<OrderResponse>()
-                              {
-                                  sellOrderResponse1,
-                                  sellOrderResponse2,
-                                  sellOrderResponse3,
-                              });
+                                 .ReturnsAsync(new List<OrderResponse>()
+                                 {
+                                     sellOrderResponse1,
+                                     sellOrderResponse2,
+                                     sellOrderResponse3,
+                                 });
 
-            List<OrderResponse> sellOrders = _getStocksService.GetAllSellOrders();
+            List<OrderResponse> sellOrders = await _getStocksService.GetAllSellOrders();
 
             sellOrderResponse1.OrderID.Should().NotBe(Guid.Empty);
             sellOrderResponse2.OrderID.Should().NotBe(Guid.Empty);
