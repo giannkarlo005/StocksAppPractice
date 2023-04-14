@@ -131,7 +131,7 @@ namespace StocksAppAssignment.UI.Controllers
             }
             await _createStocksService.CreateBuyOrder(orderRequest);
 
-            return RedirectToAction("GetOrders", "Trade", orderRequest.StockSymbol);
+            return RedirectToAction("GetOrders", "Trade", new { stockSymbol = orderRequest.StockSymbol });
         }
 
         [HttpPost]
@@ -148,7 +148,7 @@ namespace StocksAppAssignment.UI.Controllers
             }
             await _createStocksService.CreateSellOrder(orderRequest);
 
-            return RedirectToAction("GetOrders", "Trade", orderRequest.StockSymbol);
+            return RedirectToAction("GetOrders", "Trade", new { stockSymbol = orderRequest.StockSymbol });
         }
 
         [Route("/get-orders/{stockSymbol?}")]
