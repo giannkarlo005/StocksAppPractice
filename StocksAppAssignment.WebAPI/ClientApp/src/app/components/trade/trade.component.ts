@@ -61,7 +61,6 @@ export class TradeComponent implements OnInit, OnDestroy {
   }
 
   public onBuyOrderClick(): void {
-    console.log("onBuyOrderClick");
     const orderQuantity = (document.getElementById('order-quantity') as HTMLInputElement).value;
     if (!orderQuantity) {
       return;

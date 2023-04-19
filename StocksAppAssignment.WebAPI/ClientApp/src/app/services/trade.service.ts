@@ -16,17 +16,17 @@ export class TradeService {
   }
 
   public buyOrder(orderRequest: any): Observable<any> {
-    console.log("buyOrder");
-    console.log(orderRequest);
     let headers = new HttpHeaders({
       'accept': 'application/json'
     });
-    return this._httpClient.post<any>(`${API_BASE_URL}v1/Trade/buy-order`, orderRequest);
+    return this._httpClient.post<any>(`${API_BASE_URL}v1/Trade/buy-order`,
+      orderRequest,
+      {
+        headers: headers
+      });
   }
 
   public sellOrder(orderRequest: any): Observable<any> {
-    console.log("buyOrder");
-    console.log(orderRequest);
     let headers = new HttpHeaders();
     return this._httpClient.post<any>(`${API_BASE_URL}v1/Trade/sell-order`,
       orderRequest,

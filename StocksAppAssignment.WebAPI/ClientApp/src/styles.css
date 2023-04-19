@@ -119,6 +119,12 @@ body {
   width: 400px;
 }
 
+/*Links*/
+a.no-link {
+    color: white;
+    text-decoration: none;
+}
+
 /*Button*/
 .button {
   font-size: 100%;
@@ -144,20 +150,6 @@ body {
   background-color: darkred;
   color: white;
   border: 2px solid black;
-}
-
-/*Text Styles*/
-.text-bold {
-  font-weight: bold;
-}
-
-/*Text Colors*/
-.text-red {
-  color: #ff0000;
-}
-
-.text-grey {
-  color: #929292;
 }
 
 /*Input*/
@@ -192,4 +184,19 @@ body {
 
 .table-white {
   background-color: white;
+}
+
+
+/*Text Styles*/
+.text-bold {
+    font-weight: bold;
+}
+
+/*Text Colors*/
+.text-red {
+    color: #ff0000;
+}
+
+.text-grey {
+    color: #929292;
 }

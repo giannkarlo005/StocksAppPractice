@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { CompanyProfile } from '../models/company-profile';
 import { UsExchange } from '../models/us-exchange';
 import { Stock } from '../models/stock';
 
@@ -18,5 +19,15 @@ export class StocksService {
 
   public fetchPopularStockData(): Observable<Stock[]> {
     return this._httpClient.get<Stock[]>(`${API_BASE_URL}v1/Stocks/explore`);
+  }
+
+  public fetchSelectedStockData(stockSymbol: string): Observable<CompanyProfile> {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this._httpClient.post<CompanyProfile>(`${API_BASE_URL}v1/Stocks/explore`,
+       `\"${stockSymbol}\"`,
+      {
+        headers: headers
+      }
+    );
   }
 }

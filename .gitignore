@@ -17,3 +17,4 @@ StocksAppAssignment/obj/
 StocksAppAssignment/logs/
 StocksAppAssignment.Infrastructure/obj/
 StocksAppAssignment.Core/obj/
+StocksAppAssignment.WebAPI/ClientApp/.angular/

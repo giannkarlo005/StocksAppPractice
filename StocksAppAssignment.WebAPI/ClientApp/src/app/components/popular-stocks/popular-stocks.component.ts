@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { CompanyProfile } from '../../models/company-profile';
 import { Stock } from '../../models/stock';
 import { StocksService } from '../../services/stocks.service';
 
@@ -10,6 +11,7 @@ import { StocksService } from '../../services/stocks.service';
 })
 export class PopularStocksComponent implements OnInit {
   popularStocks: Stock[] = [];
+  selectedStock: CompanyProfile | null = null;
 
   constructor(private _stocksService: StocksService) { }
 
@@ -31,6 +33,20 @@ export class PopularStocksComponent implements OnInit {
     });
   }
 
-  onStockSelected(stockSymbol: string): void {
+  onStockSelected(stockSymbol: any): void {
+    console.log('onStockSelected');
+    this._stocksService.fetchSelectedStockData(stockSymbol).subscribe({
+      next: (response: CompanyProfile) => {
+        console.log(response);
+        this.selectedStock = response;
+      },
+      error: (error: Error) => {
+        console.log(error);
+      },
+      complete: () => {
+
+      }
+    });
   }
 }
+
