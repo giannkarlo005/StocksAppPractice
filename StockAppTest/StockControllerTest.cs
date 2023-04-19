@@ -8,8 +8,8 @@ using Serilog;
 
 using StocksAppAssignment.Core.DTO;
 using StocksAppAssignment.Core.ServiceContracts;
-using StocksAppAssignment.UI.Controllers;
 using StocksAppAssignment.UI.Models;
+using StocksAppAssignment.UI.Controllers.v1;
 
 namespace StockAppTest
 {
@@ -385,7 +385,7 @@ namespace StockAppTest
 
 
             //Act
-            IActionResult result = stocksController.Explore();
+            Task<IActionResult> result = stocksController.Explore();
 
             //Assert
             ViewResult viewResult = Assert.IsType<ViewResult>(result);

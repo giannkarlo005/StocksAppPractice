@@ -1,0 +1,57 @@
+<div class="order-page box margin-top w-95">
+  <div class="flex">
+    <!--Stock Logo, Name, and Price-->
+    <div class="flex-2 divider-right w-50">
+
+      <!--Stock Logo-->
+      <div>
+        <img src="{{stockTrade.stockLogo}}" alt="{{stockTrade.stockName}}" />
+      </div>
+
+      <!--Stock Name and Price-->
+      <div>
+        <h3 class="stock-title">
+          {{stockTrade.stockName}} ({{stockTrade.stockSymbol}})
+        </h3>
+        <h1>
+          <span class="text-grey">$</span>
+          <span id="stock-price">{{stockTrade.price}}</span>
+        </h1>
+      </div>
+    </div>
+
+    <!--Order Form-->
+    <div class="flex-1">
+
+      <!--Title-->
+      <div class="text-grey margin-bottom-20">New Order</div>
+
+      <!--Order Quantity-->
+      <div class="margin-bottom-20 w-px-85">
+        <label class="inline-block margin-bottom-10"></label>
+        <br />
+        <input id="order-quantity"
+               class="input"
+               type="number" />
+      </div>
+
+      <div class="text-red margin-top margin-bottom-20 width-px-400">
+        <!--TO DO: Error Message-->
+      </div>
+
+      <!--Order Buttons-->
+      <div>
+        <button type="button"
+                class="button button-red-back width-px-85 margin-right-10"
+                (click)="onSellOrderClick()">
+          Sell
+        </button>
+        <button type="button"
+                class="button button-green-back width-px-85 margin-right-10"
+                (click)="onBuyOrderClick()">
+          Buy
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

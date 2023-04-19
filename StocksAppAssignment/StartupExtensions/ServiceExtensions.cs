@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 
 using StocksAppAssignment.Core.RepositoryContracts;
 using StocksAppAssignment.Core.Services;
@@ -13,7 +15,13 @@ namespace StocksAppAssignment.UI.StartupExtensions
         public static IServiceCollection ConfigureServicesExtension(this IServiceCollection services,
                                                            IConfiguration configuration)
         {
-            services.AddControllersWithViews();
+            services.AddControllers();
+
+            services.AddApiVersioning(config =>
+            {
+                //Reads version number from request URL at "apiVersion" constraint
+                config.ApiVersionReader = new UrlSegmentApiVersionReader();
+            });
 
             services.Configure<FinnhubApiOptions>(configuration.GetSection("finnhubapi"));
 
@@ -25,6 +33,44 @@ namespace StocksAppAssignment.UI.StartupExtensions
             services.AddDbContext<StockMarketDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            //Swagger
+            //Generates description for all endpoints
+            services.AddEndpointsApiExplorer();
+            //Generates OpnAPI Specification
+            services.AddSwaggerGen(options =>
+            {
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "api.xml"));
+
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "Stocks App",
+                    Version = "1.0"
+                });
+
+                options.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo()
+                {
+                    Title = "Stocks App",
+                    Version = "2.0"
+                });
+            });
+
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'V";
+                options.SubstituteApiVersionInUrl = true;
+            });
+
+            //CORS to localhost
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>())
+                           .WithHeaders("origin", "accept", "content-type")
+                           .WithMethods("GET", "POST", "PUT", "DELETE");
+                });
             });
 
             return services;

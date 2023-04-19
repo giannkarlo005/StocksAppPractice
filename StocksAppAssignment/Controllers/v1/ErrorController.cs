@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace StocksAppAssignment.UI.Controllers
+namespace StocksAppAssignment.UI.Controllers.v1
 {
     public class ErrorController : Controller
     {
@@ -16,7 +16,7 @@ namespace StocksAppAssignment.UI.Controllers
         public IActionResult Error()
         {
             IExceptionHandlerPathFeature? exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
-            if(exceptionHandlerPathFeature != null &&
+            if (exceptionHandlerPathFeature != null &&
                exceptionHandlerPathFeature.Error != null)
             {
                 if (_environment.IsDevelopment())

@@ -1,0 +1,195 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 18px;
+  background-color: #f7f7f7;
+}
+
+.page-content {
+    margin: 0px 30px;
+}
+
+.app-title {
+  font-size: 1.9em;
+}
+
+.box {
+  border: 2px solid lightgrey;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/*Flex*/
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  align-items: stretch;
+}
+
+.flex > div {
+  padding: 4px;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+}
+
+.flex-1 {
+    flex: 1 auto;
+}
+
+.flex-2 {
+    flex: 2 auto;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.border-bottom {
+  border-bottom: 2px solid #7a7a7a;
+  margin-bottom: 6px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+/*Margin*/
+.margin-top-10 {
+  margin-top: 10px;
+}
+
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.margin-bottom-15 {
+  margin-bottom: 15px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.margin-bottom-25 {
+  margin-bottom: 25px;
+}
+
+.margin-bottom-50 {
+  margin-bottom: 50px;
+}
+
+.margin-right-10 {
+  margin-right: 10px;
+}
+
+.margin-10 {
+  margin: 10px;
+}
+
+/*Width*/
+.w-50 {
+  width: 50%
+}
+
+.w-95 {
+  width: 95%
+}
+
+.w-100 {
+    width: 100%
+}
+
+.width-px-85 {
+  width: 85px;
+}
+
+.width-px-400 {
+  width: 400px;
+}
+
+/*Button*/
+.button {
+  font-size: 100%;
+  cursor: pointer;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.button-blue-back {
+  background-color: royalblue;
+  color: white;
+  border: 2px solid black;
+}
+
+.button-green-back {
+  background-color: darkgreen;
+  color: white;
+  border: 2px solid black;
+}
+
+.button-red-back {
+  background-color: darkred;
+  color: white;
+  border: 2px solid black;
+}
+
+/*Text Styles*/
+.text-bold {
+  font-weight: bold;
+}
+
+/*Text Colors*/
+.text-red {
+  color: #ff0000;
+}
+
+.text-grey {
+  color: #929292;
+}
+
+/*Input*/
+.input {
+  padding: 8px 10px;
+  font-size: 100%;
+  border-radius: 20px;
+  border: 1px solid grey;
+  margin-right: 20px;
+}
+
+/*Table*/
+.table {
+  border: 1px solid none;
+  padding: 10px;
+  margin: 15px 0px;
+}
+
+  .table > tbody > tr {
+    height: 50px;
+    vertical-align: auto;
+  }
+
+    .table > tbody > tr:hover {
+      background-color: lightblue;
+    }
+
+  .table > thead {
+    background-color: #bcd5c6;
+    color: #000000;
+  }
+
+.table-white {
+  background-color: white;
+}

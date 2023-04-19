@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 
 using StocksAppAssignment.Core.DTO;
-using StocksAppAssignment.UI.Controllers;
+using StocksAppAssignment.UI.Controllers.v1;
 
 namespace StocksAppAssignment.UI.Filters.ActionFilters
 {
@@ -31,7 +31,7 @@ namespace StocksAppAssignment.UI.Filters.ActionFilters
                         _logger.LogError("Order Stock Symbol is null");
                         _logger.LogError("Order Date and Time of Order is {DateAndTimeOfOrder}", Convert.ToString(orderRequest?.DateAndTimeOfOrder));
 
-                        tradeController.ViewBag.Errors = tradeController.ModelState.Values.SelectMany(x => x.Errors).Select(y => y.ErrorMessage).ToList();
+                        //tradeController.ViewBag.Errors = tradeController.ModelState.Values.SelectMany(x => x.Errors).Select(y => y.ErrorMessage).ToList();
                         context.Result = await tradeController.Index(orderRequest?.StockSymbol);
                     }
                 }

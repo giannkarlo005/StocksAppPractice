@@ -6,9 +6,13 @@ using StocksAppAssignment.Core.DTO;
 using StocksAppAssignment.Core.ServiceContracts;
 using StocksAppAssignment.UI.Models;
 
-namespace StocksAppAssignment.UI.Controllers
+namespace StocksAppAssignment.UI.Controllers.v1
 {
-    public class StocksController : Controller
+    /// <summary>
+    /// Version 1 of StocksController
+    /// </summary>
+    [ApiVersion("1.0")]
+    public class StocksController : BaseController
     {
         private readonly IConfiguration _configuration;
         private readonly IFinnhubService _finnhubService;
@@ -22,8 +26,8 @@ namespace StocksAppAssignment.UI.Controllers
         public StocksController(IConfiguration configuration,
                                 IFinnhubService finnhubService,
                                 ILogger<StocksController> logger,
-                                IDiagnosticContext diagnosticContext) 
-        { 
+                                IDiagnosticContext diagnosticContext)
+        {
             _configuration = configuration;
             _finnhubService = finnhubService;
 
@@ -39,7 +43,7 @@ namespace StocksAppAssignment.UI.Controllers
                 if (section.Key == "FinnhubToken")
                     FinnhubToken = section.Value ?? "";
             }
-            
+
             _finnhubService.SetFinnhubUrlToken(FinnhubURL, FinnhubToken);
         }
 
@@ -61,13 +65,13 @@ namespace StocksAppAssignment.UI.Controllers
             return top25StocksStr.Split(",").ToList();
         }
 
-        private List<Stock> getPopularStocksProfiles(List<string> top25StocksList)
+        private async Task<List<Stock>> getPopularStocksProfiles(List<string> top25StocksList)
         {
             _logger.LogInformation("getPopularStocksProfiles of StocksController");
             _diagnosticContext.Set("Top25StocksList", top25StocksList);
 
             List<Stock> popularStocks = new List<Stock>();
-            List<USExchange> usExchange = _finnhubService.GetAllStocks().Result;
+            List<USExchange> usExchange = await _finnhubService.GetAllStocks();
             foreach (var exchange in usExchange)
             {
                 if (!top25StocksList.Contains(exchange.Symbol ?? ""))
@@ -153,30 +157,29 @@ namespace StocksAppAssignment.UI.Controllers
             return companyProfile;
         }
 
+        /// <summary>
+        /// Gets and Filters the Top25 Stocks given a predetermined list of 25 popular companies
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("stocks/explore")]
-        public IActionResult Explore()
+        [Route("explore")]
+        public async Task<IActionResult> Explore()
         {
             _logger.LogInformation("Get Explore of StocksController");
 
             List<string> top25StocksList = getTop25StocksList();
-            List<Stock> popularStocks = getPopularStocksProfiles(top25StocksList);
+            List<Stock> popularStocks = await getPopularStocksProfiles(top25StocksList);
 
             _diagnosticContext.Set("Top25PopularStocks", popularStocks);
 
-            ViewBag.StockSymbol = null;
-            ViewBag.CompanyProfile = null;
-
-            ViewBag.PopularStocks = popularStocks;
-
-            return View(popularStocks);
+            return Ok(popularStocks);
         }
 
         [HttpPost]
-        [Route("stocks/explore")]
-        public IActionResult Explore([FromBody] string? StockSymbol)
+        [Route("explore")]
+        public async Task<IActionResult> Explore([FromBody] string? StockSymbol)
         {
-            if (String.IsNullOrEmpty(StockSymbol))
+            if (string.IsNullOrEmpty(StockSymbol))
             {
                 return BadRequest("Stock Symbol should not be empty");
             }
@@ -184,12 +187,12 @@ namespace StocksAppAssignment.UI.Controllers
             _logger.LogInformation("Post Explore of StocksController");
             _logger.LogDebug($"StockSymbol: {StockSymbol}");
 
-            ViewBag.StockSymbol = StockSymbol;
+            //ViewBag.StockSymbol = StockSymbol;
 
             double companyStockPrice = 0;
             Dictionary<string, object>? companyStockPriceDict = new Dictionary<string, object>();
 
-            companyStockPriceDict = _finnhubService.GetStockPriceQuote(StockSymbol).Result;
+            companyStockPriceDict = await _finnhubService.GetStockPriceQuote(StockSymbol);
             if (companyStockPriceDict != null)
             {
                 foreach (string key in companyStockPriceDict.Keys)
@@ -206,7 +209,7 @@ namespace StocksAppAssignment.UI.Controllers
             CompanyProfile companyProfile = getCompanyProfile(StockSymbol);
             companyProfile.StockPrice = companyStockPrice;
 
-            return ViewComponent("SelectedStock", companyProfile);
+            return Ok(companyProfile);
         }
     }
 }

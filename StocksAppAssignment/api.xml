@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StocksAppAssignment.UI</name>
+    </assembly>
+    <members>
+        <member name="T:StocksAppAssignment.UI.Controllers.v1.StocksController">
+            <summary>
+            Version 1 of StocksController
+            </summary>
+        </member>
+        <member name="M:StocksAppAssignment.UI.Controllers.v1.StocksController.Explore">
+            <summary>
+            Gets and Filters the Top25 Stocks given a predetermined list of 25 popular companies
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

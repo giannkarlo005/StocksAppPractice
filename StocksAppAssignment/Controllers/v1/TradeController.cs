@@ -10,9 +10,10 @@ using StocksAppAssignment.Core.ServiceContracts;
 using StocksAppAssignment.UI.Filters.ActionFilters;
 using StocksAppAssignment.UI.Models;
 
-namespace StocksAppAssignment.UI.Controllers
+namespace StocksAppAssignment.UI.Controllers.v1
 {
-    public class TradeController : Controller
+    [ApiVersion("1.0")]
+    public class TradeController : BaseController
     {
         private readonly IFinnhubService _finnhubService;
         private readonly ICreateStockOrdersService _createStocksService;
@@ -46,30 +47,31 @@ namespace StocksAppAssignment.UI.Controllers
             _diagnosticContext = diagnosticContext;
         }
 
-        [Route("/")]
-        [Route("/home")]
+        [HttpGet]
+        [Route("get-all-stocks")]
         public async Task<IActionResult> GetAllStocks()
         {
             _logger.LogInformation("GetAllStocks of TradeController");
 
             List<USExchange> usExchange = await _finnhubService.GetAllStocks();
 
-            return View("GetAllStocks", usExchange);
+            return Ok(usExchange);
         }
 
-        [Route("/get-company-stockPrice/{stockSymbol}")]
+        [HttpGet]
+        [Route("get-company-stockPrice/{stockSymbol}")]
         public async Task<IActionResult> Index(string? stockSymbol)
         {
             _logger.LogInformation("Index of TradeController");
             _logger.LogDebug($"StockSymbol: {stockSymbol}");
 
-            if (String.IsNullOrEmpty(stockSymbol))
+            if (string.IsNullOrEmpty(stockSymbol))
             {
                 return BadRequest("Stock Symbol should not be empty");
             }
 
-            ViewBag.FinnhubToken = FinnhubToken;
-            ViewBag.StockSymbol = stockSymbol;
+            //ViewBag.FinnhubToken = FinnhubToken;
+            //ViewBag.StockSymbol = stockSymbol;
 
             Dictionary<string, object>? companyProfileDict = await _finnhubService.GetCompanyProfile(stockSymbol);
             Dictionary<string, object>? companyStockPriceDict = await _finnhubService.GetStockPriceQuote(stockSymbol);
@@ -85,7 +87,7 @@ namespace StocksAppAssignment.UI.Controllers
 
             foreach (string key in companyProfileDict.Keys)
             {
-                switch(key)
+                switch (key)
                 {
                     case "name":
                         companyName = Convert.ToString(companyProfileDict[key]);
@@ -114,11 +116,11 @@ namespace StocksAppAssignment.UI.Controllers
                 Price = companyStockPrice
             };
 
-            return View("Index", companyProfile);
+            return Ok(companyProfile);
         }
 
         [HttpPost]
-        [Route("/buy-order")]
+        [Route("buy-order")]
         [TypeFilter(typeof(CreateOrderActionFilter))]
         public async Task<IActionResult> BuyOrder([FromBody] OrderRequest orderRequest)
         {
@@ -131,11 +133,11 @@ namespace StocksAppAssignment.UI.Controllers
             }
             await _createStocksService.CreateBuyOrder(orderRequest);
 
-            return RedirectToAction("GetOrders", "Trade", new { stockSymbol = orderRequest.StockSymbol });
+            return Ok(orderRequest);// RedirectToAction("GetOrders", "Trade", new { stockSymbol = orderRequest.StockSymbol });
         }
 
         [HttpPost]
-        [Route("/sell-order")]
+        [Route("sell-order")]
         [TypeFilter(typeof(CreateOrderActionFilter))]
         public async Task<IActionResult> SellOrder([FromBody] OrderRequest orderRequest)
         {
@@ -148,21 +150,22 @@ namespace StocksAppAssignment.UI.Controllers
             }
             await _createStocksService.CreateSellOrder(orderRequest);
 
-            return RedirectToAction("GetOrders", "Trade", new { stockSymbol = orderRequest.StockSymbol });
+            return Ok(orderRequest);// RedirectToAction("GetOrders", "Trade", new { stockSymbol = orderRequest.StockSymbol });
         }
 
-        [Route("/get-orders/{stockSymbol?}")]
+        [HttpGet]
+        [Route("get-orders/{stockSymbol?}")]
         public async Task<IActionResult> GetOrders(string? stockSymbol)
         {
             _logger.LogInformation("GetOrders of TradeController");
             _logger.LogDebug($"StockSymbol: {stockSymbol}");
 
-            if (String.IsNullOrEmpty(stockSymbol))
+            if (string.IsNullOrEmpty(stockSymbol))
             {
                 return BadRequest("Stock Symbol should not be empty");
             }
 
-            ViewBag.StockSymbol = stockSymbol;
+            //ViewBag.StockSymbol = stockSymbol;
 
             List<OrderResponse> buyOrders = await _getStocksService.GetFilteredBuyOrders(stockSymbol);
             List<OrderResponse> sellOrders = await _getStocksService.GetFilteredSellOrders(stockSymbol);
@@ -173,16 +176,17 @@ namespace StocksAppAssignment.UI.Controllers
                 SellOrders = sellOrders
             };
 
-            return View("Orders", stockTrade);
+            return Ok(stockTrade);
         }
 
-        [Route("/orders-pdf/{stockSymbol}")]
+        [HttpGet]
+        [Route("orders-pdf/{stockSymbol}")]
         public async Task<IActionResult> OrdersPDF(string stockSymbol)
         {
             _logger.LogInformation("OrdersPDF of TradeController");
             _logger.LogDebug($"StockSymbol: {stockSymbol}");
 
-            ViewBag.StockSymbol = stockSymbol;
+            //ViewBag.StockSymbol = stockSymbol;
 
             List<OrderResponse> buyOrders = await _getStocksService.GetFilteredBuyOrders(stockSymbol);
             List<OrderResponse> sellOrders = await _getStocksService.GetFilteredSellOrders(stockSymbol);
@@ -230,7 +234,7 @@ namespace StocksAppAssignment.UI.Controllers
 
             orderSummaryList = orderSummaryList.OrderByDescending(x => x.DateAndTime).ToList();
 
-            return new ViewAsPdf("OrdersPDF", orderSummaryList, ViewData)
+            return new ViewAsPdf("OrdersPDF", orderSummaryList)
             {
                 PageMargins = new Margins()
                 {

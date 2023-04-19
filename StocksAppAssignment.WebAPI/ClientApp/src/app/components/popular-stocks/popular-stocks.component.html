@@ -1,0 +1,24 @@
+<div class="flex">
+  <div class="flex-1 w-50">
+    <div class="box">
+      <div class="text-grey">
+        Stocks
+      </div>
+      <table class="table table-white w-100">
+        <tbody>
+          <tr *ngFor="let stock of popularStocks"
+              class="cursor-pointer">
+            <td>
+              <div class="text-bold">{{stock.stockName}}</div>
+              <div class="text-grey">
+                ({{stock.stockSymbol}})
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="flex-1 w-50">
+  </div>
+</div>

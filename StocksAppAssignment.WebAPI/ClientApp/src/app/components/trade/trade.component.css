@@ -1,0 +1,18 @@
+.divider-right {
+  border-right: solid grey;
+  margin-right: 30px;
+}
+
+.order-page {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stock-title {
+  font-size: 2.2em;
+  color: royalblue;
+}
+
+.stock-price {
+  font-size: 4.5em;
+}
