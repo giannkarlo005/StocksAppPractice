@@ -34,7 +34,6 @@ export class PopularStocksComponent implements OnInit {
   }
 
   onStockSelected(stockSymbol: any): void {
-    console.log('onStockSelected');
     this._stocksService.fetchSelectedStockData(stockSymbol).subscribe({
       next: (response: CompanyProfile) => {
         console.log(response);

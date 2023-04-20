@@ -1,5 +1,5 @@
 <div class="navbar-container w-100">
-  <div class="navbar w-100">
+  <div class="navbar navbar-lightgray-bg  w-100">
     <div class="flex w-100">
       <!--App Title-->
       <div class="flex-1 w-50">
@@ -15,24 +15,32 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="page-links-container w-100">
-  <div class="navbar-list">
-    <ul>
-      <li>
-        <a (click)="onStockListLinkClick()">Stocks List</a>
-      </li>
-      <li>
-        <a (click)="onPopularStocksListCLicked()">Popular Stocks</a>
-      </li>
-      <li>
-        <a (click)="onTradeLinkClick()">Trade</a>
-      </li>
-      <li>
-        <a (click)="onOrdersLinkClick()">Orders</a>
-      </li>
-    </ul>
+
+    <!--Page Links-->
+    <div class="flex w-100">
+      <div class="flex-1 w-50">
+        <div class="navbar-list">
+          <ul>
+            <li>
+              <a (click)="onStockListLinkClick()">Stocks List</a>
+            </li>
+            <li>
+              <a (click)="onPopularStocksListCLicked()">Popular Stocks</a>
+            </li>
+            <li>
+              <a (click)="onTradeLinkClick()"
+                 *ngIf="pageLinks.getTradeLinkVisibility()">Trade</a>
+            </li>
+            <li>
+              <a (click)="onOrdersLinkClick()"
+                 *ngIf="pageLinks.getOrderLinkVisibility()">Orders</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="flex-1 w-50">
+      </div>
+    </div>
   </div>
 </div>
 <div class="page-content">

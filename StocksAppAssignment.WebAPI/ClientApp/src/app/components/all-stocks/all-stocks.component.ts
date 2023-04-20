@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { UsExchange } from '../../models/us-exchange';
+import { PageLinksServiceService } from '../../services/page-links-service.service';
 import { StocksService } from '../../services/stocks.service';
 
 @Component({
@@ -10,11 +12,22 @@ import { StocksService } from '../../services/stocks.service';
 })
 export class AllStocksComponent implements OnInit {
   stocks: UsExchange[] = [];
+  isShowLoadMoreButtonShown: boolean = false;
+  start: number = 0;
+  end: number = 0;
 
-  constructor(private _stocksService: StocksService) {
+  private maxLength: number = 25;
+
+  constructor(private _pageLinksService: PageLinksServiceService,
+              private _router: Router,
+              private _stocksService: StocksService) {
   }
 
   ngOnInit(): void {
+    //set page links visibility
+    this._pageLinksService.setTradeLinkVisibility(false);
+    this._pageLinksService.setOrderLinkVisibility(false);
+
     this.fetchStocksList();
   }
 
@@ -22,13 +35,31 @@ export class AllStocksComponent implements OnInit {
     this._stocksService.fetchAllStockData().subscribe({
       next: (response: UsExchange[]) => {
         this.stocks = response;
+        if (Array.isArray(this.stocks)) {
+          this.end = this.stocks.length > this.maxLength ? this.maxLength : this.stocks.length;
+          this.isShowLoadMoreButtonShown = true;
+        }
       },
       error: (error: Error) => {
-        console.log('fetchStocksList');
         console.log(error);
       },
       complete: () => {
       }
     });
+  }
+
+  onLoadMoreButtonClicked(): void {
+    if (!this.isShowLoadMoreButtonShown) {
+      return;
+    }
+    if (this.end >= this.stocks.length) {
+      this.end = this.stocks.length;
+      return;
+    }
+    this.end += this.maxLength;
+  }
+
+  onStockDescriptionClick(stockSymbol: any): void {
+    this._router.navigate([`/trade/${stockSymbol}`]);
   }
 }

@@ -10,11 +10,8 @@ import { CompanyProfile } from '../../../models/company-profile';
 export class SelectedStockComponent implements OnInit {
   @Input() selectedStock: CompanyProfile = new CompanyProfile();
 
-  constructor() {
-    console.log('SelectedStockComponent');
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    console.log(this.selectedStock);
   }
 }

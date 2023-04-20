@@ -1,9 +1,5 @@
 .navbar-container {
-  height: 80px;
-}
-
-.page-links-container {
-  height: 50px;
+  height: 90px;
 }
 
 .navbar {
@@ -11,12 +7,12 @@
   top: 0;
   left: 0;
   z-index: 2;
-  padding: 15px;
 }
 
 .navbar-list > ul {
   list-style-type: none;
   width: 100%;
+  margin-bottom: 0px;
 }
 
   .navbar-list > ul > li {
@@ -27,3 +23,6 @@
     color: blue;
   }
 
+.navbar-lightgray-bg {
+  background-color: lightgray;
+}
