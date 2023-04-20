@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CompanyProfile } from '../../models/company-profile';
+import { PageLinksService } from '../../services/page-links-service';
 import { Stock } from '../../models/stock';
 import { StocksService } from '../../services/stocks.service';
 
@@ -13,7 +14,9 @@ export class PopularStocksComponent implements OnInit {
   popularStocks: Stock[] = [];
   selectedStock: CompanyProfile | null = null;
 
-  constructor(private _stocksService: StocksService) { }
+  constructor(private _pageLinksService: PageLinksService,
+              private _stocksService: StocksService) {
+  }
 
   ngOnInit(): void {
     this.fetchPopularStockData();
@@ -36,14 +39,13 @@ export class PopularStocksComponent implements OnInit {
   onStockSelected(stockSymbol: any): void {
     this._stocksService.fetchSelectedStockData(stockSymbol).subscribe({
       next: (response: CompanyProfile) => {
-        console.log(response);
         this.selectedStock = response;
+        this._pageLinksService.setStockSymbol(stockSymbol);
       },
       error: (error: Error) => {
         console.log(error);
       },
       complete: () => {
-
       }
     });
   }

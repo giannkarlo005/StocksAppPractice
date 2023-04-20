@@ -48,7 +48,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
   getOrders(stockSymbol: string): void {
     this._orderService.getOrders(stockSymbol).subscribe({
       next: (response: any) => {
-        console.log(response);
         if (!response) {
           return;
         }
