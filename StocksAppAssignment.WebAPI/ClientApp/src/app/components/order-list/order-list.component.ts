@@ -14,9 +14,8 @@ export class OrderListComponent implements OnInit, OnDestroy {
   sellOrders: any[] = [];
 
   constructor(private _orderService: OrderService,
-              private _activatedRoute: ActivatedRoute) { }
-
-  ngOnInit(): void {
+              private _activatedRoute: ActivatedRoute
+  ) {
     this.paramSubscription = this._activatedRoute.paramMap.subscribe((params) => {
       const stockSymbol = params.get('stockSymbol')?.toString();
 
@@ -24,6 +23,9 @@ export class OrderListComponent implements OnInit, OnDestroy {
         this.getOrders(stockSymbol);
       }
     });
+  }
+
+  ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
@@ -46,7 +48,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
   getOrders(stockSymbol: string): void {
     this._orderService.getOrders(stockSymbol).subscribe({
       next: (response: any) => {
-        console.log('getOrders');
         console.log(response);
         if (!response) {
           return;
@@ -55,7 +56,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
         this.sellOrders = response.sellOrders || [];
       },
       error: (error: Error) => {
-        console.log('getOrders');
         console.log(error);
       },
       complete: () => {

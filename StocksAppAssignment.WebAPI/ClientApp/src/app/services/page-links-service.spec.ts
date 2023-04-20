@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PageLinksServiceService } from './page-links-service.service';
+import { PageLinksService } from './page-links-service';
 
 describe('PageLinksServiceService', () => {
-  let service: PageLinksServiceService;
+  let service: PageLinksService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PageLinksServiceService);
+    service = TestBed.inject(PageLinksService);
   });
 
   it('should be created', () => {

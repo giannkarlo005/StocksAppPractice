@@ -12,8 +12,8 @@ using StocksAppAssignment.Infrastructure.DatabaseContext;
 namespace StocksAppAssignment.Infrastructure.Migrations
 {
     [DbContext(typeof(StockMarketDbContext))]
-    [Migration("20230414114328_Add-BuyOrderTable")]
-    partial class AddBuyOrderTable
+    [Migration("20230420100435_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,35 @@ namespace StocksAppAssignment.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("StocksAppAssignment.Core.DTO.Order", b =>
+            modelBuilder.Entity("StocksAppAssignment.Core.Entities.BuyOrder", b =>
+                {
+                    b.Property<Guid?>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DateAndTimeOfOrder")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("OrderPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("OrderQuantity")
+                        .HasColumnType("float");
+
+                    b.Property<string>("StockName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StockSymbol")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("OrderID");
+
+                    b.ToTable("BuyOrders", (string)null);
+                });
+
+            modelBuilder.Entity("StocksAppAssignment.Core.Entities.SellOrder", b =>
                 {
                     b.Property<Guid?>("OrderID")
                         .ValueGeneratedOnAdd()

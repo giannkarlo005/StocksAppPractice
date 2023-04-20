@@ -1,7 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 import { StockTrade } from '../../models/stock-trade';
+import { PageLinksService } from '../../services/page-links-service';
 import { TradeService } from '../../services/trade.service';
 
 @Component({
@@ -15,16 +17,26 @@ export class TradeComponent implements OnInit, OnDestroy {
   stockTrade: StockTrade = new StockTrade();
 
   constructor(private _activatedRoute: ActivatedRoute,
-              private _tradeService: TradeService) { }
-
-  ngOnInit(): void {
+              private _router: Router,
+              private _title: Title,
+              private _pageLinksService: PageLinksService,
+              private _tradeService: TradeService
+   ) {
+    this._title.setTitle("Trade");
     this.paramsSubscription = this._activatedRoute.paramMap.subscribe((params) => {
       const stockSymbol = params.get('stockSymbol')?.toString();
 
       if (stockSymbol) {
+        this._pageLinksService.setOrderLinkVisibility(true);
+        this._pageLinksService.setTradeLinkVisibility(true);
+        this._pageLinksService.setStockSymbol(stockSymbol);
+
         this.getCompanyStockPrice(stockSymbol);
       }
     });
+  }
+
+  ngOnInit() {
   }
 
   ngOnDestroy(): void {
@@ -49,7 +61,6 @@ export class TradeComponent implements OnInit, OnDestroy {
     this._tradeService.getCompanyStockPrice(stockSymbol).subscribe({
       next: (response: StockTrade) => {
         this.stockTrade = response;
-        console.log(response);
       },
       error: (error: Error) => {
         console.log(error);
@@ -66,18 +77,22 @@ export class TradeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let orderRequest = this.createOrderRequest(parseFloat(orderQuantity));
-    this._tradeService.buyOrder(orderRequest).subscribe({
-      next: (response: any) => {
-        console.log(response);
-      },
-      error: (error: Error) => {
-        console.log(error);
-      },
-      complete: () => {
+    const confirmMessage = `You are about to buy stocks from ${this.stockTrade.stockName}. Proceed?`
+    if (confirm(confirmMessage)) {
+      let orderRequest = this.createOrderRequest(parseFloat(orderQuantity));
+      this._tradeService.buyOrder(orderRequest).subscribe({
+        next: (response: any) => {
+          this._router.navigate([`/order/${this.stockTrade.stockSymbol}`]);
+          console.log(response);
+        },
+        error: (error: Error) => {
+          console.log(error);
+        },
+        complete: () => {
 
-      }
-    });
+        }
+      });
+    }
   }
 
   public onSellOrderClick(): void {
@@ -86,17 +101,20 @@ export class TradeComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let orderRequest = this.createOrderRequest(parseFloat(orderQuantity));
-    this._tradeService.sellOrder(orderRequest).subscribe({
-      next: (response: any) => {
-        console.log(response);
-      },
-      error: (error: Error) => {
-        console.log(error);
-      },
-      complete: () => {
+    const confirmMessage = `You are about to sell stocks from ${this.stockTrade.stockName}. Proceed?`
+    if (confirm(confirmMessage)) {
+      let orderRequest = this.createOrderRequest(parseFloat(orderQuantity));
+      this._tradeService.sellOrder(orderRequest).subscribe({
+        next: (response: any) => {
+          this._router.navigate([`/order/${this.stockTrade.stockSymbol}`]);
+        },
+        error: (error: Error) => {
+          console.log(error);
+        },
+        complete: () => {
 
-      }
-    });
+        }
+      });
+    }
   }
 }

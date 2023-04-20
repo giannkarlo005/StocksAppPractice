@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.Entities;
 using StocksAppAssignment.Core.RepositoryContracts;
 using StocksAppAssignment.Core.ServiceContracts;
 
@@ -27,7 +28,7 @@ namespace StocksAppAssignment.Core.Services
                 throw new ArgumentNullException(nameof(orderRequest));
             }
 
-            Order order = orderRequest.ToOrder();
+            BuyOrder order = orderRequest.ToBuyOrder();
             order.OrderID = Guid.NewGuid();
 
             await _stockMarketRepository.CreateBuyOrder(order);
@@ -44,10 +45,10 @@ namespace StocksAppAssignment.Core.Services
                 throw new ArgumentNullException(nameof(orderRequest));
             }
 
-            Order order = orderRequest.ToOrder();
+            SellOrder order = orderRequest.ToSellOrder();
             order.OrderID = Guid.NewGuid();
 
-            await _stockMarketRepository.CreateBuyOrder(order);
+            await _stockMarketRepository.CreateSellOrder(order);
 
             return order.ToOrderResponse();
         }

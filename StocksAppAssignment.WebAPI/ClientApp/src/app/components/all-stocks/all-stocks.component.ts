@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { UsExchange } from '../../models/us-exchange';
-import { PageLinksServiceService } from '../../services/page-links-service.service';
 import { StocksService } from '../../services/stocks.service';
 
 @Component({
@@ -18,16 +17,11 @@ export class AllStocksComponent implements OnInit {
 
   private maxLength: number = 25;
 
-  constructor(private _pageLinksService: PageLinksServiceService,
-              private _router: Router,
+  constructor(private _router: Router,
               private _stocksService: StocksService) {
   }
 
   ngOnInit(): void {
-    //set page links visibility
-    this._pageLinksService.setTradeLinkVisibility(false);
-    this._pageLinksService.setOrderLinkVisibility(false);
-
     this.fetchStocksList();
   }
 

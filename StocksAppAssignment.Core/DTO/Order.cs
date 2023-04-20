@@ -24,5 +24,4 @@ namespace StocksAppAssignment.Core.DTO
                    $"Date and Time of Order: {DateAndTimeOfOrder}";
         }
     }
-
 }

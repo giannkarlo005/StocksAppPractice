@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class PageLinksServiceService {
+export class PageLinksService {
   private isTradeLinkVisible: boolean = false;
   private isOrderLinkVisible: boolean = false;
   private stockSymbol: string = ""; 

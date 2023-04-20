@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.Entities;
 using StocksAppAssignment.Core.RepositoryContracts;
 using StocksAppAssignment.Infrastructure.DatabaseContext;
 
@@ -14,7 +16,7 @@ namespace StocksAppAssignment.Infrastructure.Repository
             _dbContext = dbContext;
         }
 
-        public virtual async Task<Order> CreateBuyOrder(Order order)
+        public virtual async Task<Order> CreateBuyOrder(BuyOrder order)
         {
             _dbContext.BuyOrders.Add(order);
             await _dbContext.SaveChangesAsync();
@@ -22,7 +24,7 @@ namespace StocksAppAssignment.Infrastructure.Repository
             return order;
         }
 
-        public virtual async Task<Order> CreateSellOrder(Order order)
+        public virtual async Task<Order> CreateSellOrder(SellOrder order)
         {
             _dbContext.SellOrders.Add(order);
             await _dbContext.SaveChangesAsync();
@@ -30,12 +32,12 @@ namespace StocksAppAssignment.Infrastructure.Repository
             return order;
         }
 
-        public virtual async Task<List<Order>> GetAllBuyOrders()
+        public virtual async Task<List<BuyOrder>> GetAllBuyOrders()
         {
             return await _dbContext.BuyOrders.ToListAsync();
         }
 
-        public virtual async Task<List<Order>> GetAllSellOrders()
+        public virtual async Task<List<SellOrder>> GetAllSellOrders()
         {
             return await _dbContext.SellOrders.ToListAsync();
         }

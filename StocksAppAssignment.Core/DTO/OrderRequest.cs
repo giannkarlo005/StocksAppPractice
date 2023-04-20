@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using StocksAppAssignment.Core.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace StocksAppAssignment.Core.DTO
 {
@@ -16,9 +17,21 @@ namespace StocksAppAssignment.Core.DTO
         public double OrderPrice { get; set; }
         public DateTime? DateAndTimeOfOrder { get; set; } = DateTime.Now;
 
-        public Order ToOrder()
+        public BuyOrder ToBuyOrder()
         {
-            return new Order()
+            return new BuyOrder()
+            {
+                StockName = StockName,
+                StockSymbol = StockSymbol,
+                OrderQuantity = OrderQuantity,
+                OrderPrice = OrderPrice,
+                DateAndTimeOfOrder = DateAndTimeOfOrder
+            };
+        }
+
+        public SellOrder ToSellOrder()
+        {
+            return new SellOrder()
             {
                 StockName = StockName,
                 StockSymbol = StockSymbol,

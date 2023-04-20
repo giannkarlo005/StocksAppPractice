@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.Entities;
 using StocksAppAssignment.Core.RepositoryContracts;
 using StocksAppAssignment.Core.ServiceContracts;
 
@@ -22,7 +23,7 @@ namespace StocksAppAssignment.Core.Services
         {
             _logger.LogInformation("GetAllBuyOrders of StocksService");
 
-            List<Order> buyOrders = await _stockMarketRepository.GetAllBuyOrders();
+            List<BuyOrder> buyOrders = await _stockMarketRepository.GetAllBuyOrders();
             return buyOrders.Select(buyOrder => buyOrder.ToOrderResponse()).ToList();
         }
 
@@ -30,7 +31,7 @@ namespace StocksAppAssignment.Core.Services
         {
             _logger.LogInformation("GetAllSellOrders of StocksService");
 
-            List<Order> sellOrders = await _stockMarketRepository.GetAllSellOrders();
+            List<SellOrder> sellOrders = await _stockMarketRepository.GetAllSellOrders();
             return sellOrders.Select(sellOrder => sellOrder.ToOrderResponse()).ToList();
         }
 
@@ -38,8 +39,8 @@ namespace StocksAppAssignment.Core.Services
         {
             _logger.LogInformation("GetAllBuyOrders of StocksService");
 
-            List<Order> buyOrders = await _stockMarketRepository.GetAllBuyOrders();
-            List<Order> filteredBuyOrders = buyOrders.Where(order => order.StockSymbol == stockSymbol).ToList();
+            List<BuyOrder> buyOrders = await _stockMarketRepository.GetAllBuyOrders();
+            List<BuyOrder> filteredBuyOrders = buyOrders.Where(order => order.StockSymbol == stockSymbol).ToList();
 
             return filteredBuyOrders.Select(order => order.ToOrderResponse()).ToList();
         }
@@ -48,8 +49,8 @@ namespace StocksAppAssignment.Core.Services
         {
             _logger.LogInformation("GetAllSellOrders of StocksService");
 
-            List<Order> sellOrders = await _stockMarketRepository.GetAllSellOrders();
-            List<Order> filteredSellOrders = sellOrders.Where(order => order.StockSymbol == stockSymbol).ToList();
+            List<SellOrder> sellOrders = await _stockMarketRepository.GetAllSellOrders();
+            List<SellOrder> filteredSellOrders = sellOrders.Where(order => order.StockSymbol == stockSymbol).ToList();
 
             return filteredSellOrders.Select(order => order.ToOrderResponse()).ToList();
         }

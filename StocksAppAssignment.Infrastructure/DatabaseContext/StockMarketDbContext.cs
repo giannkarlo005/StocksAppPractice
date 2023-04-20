@@ -1,23 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using StocksAppAssignment.Core.DTO;
+using StocksAppAssignment.Core.Entities;
 
 namespace StocksAppAssignment.Infrastructure.DatabaseContext
 {
     public class StockMarketDbContext: DbContext
     {
-        public virtual DbSet<Order> BuyOrders { get; set; }
-        public virtual DbSet<Order> SellOrders { get; set; }
+        public virtual DbSet<BuyOrder> BuyOrders { get; set; }
+        public virtual DbSet<SellOrder> SellOrders { get; set; }
 
         public StockMarketDbContext(DbContextOptions options):
             base(options)
         {
         }
 
+        public StockMarketDbContext() { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Order>().ToTable("BuyOrders");
-            modelBuilder.Entity<Order>().ToTable("SellOrders");
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BuyOrder>().ToTable("BuyOrders");
+            modelBuilder.Entity<SellOrder>().ToTable("SellOrders");
         }
     }
 }
