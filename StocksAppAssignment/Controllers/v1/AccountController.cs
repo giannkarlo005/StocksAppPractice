@@ -27,12 +27,13 @@ namespace StocksAppAssignment.UI.Controllers.v1
         /// </summary>
         /// <param name="registerDTO"></param>
         /// <returns></returns>
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(RegisterDTO registerDTO)
         {
             if(!ModelState.IsValid)
             {
                 IEnumerable<string> stateErrorMessages = ModelState.Values.SelectMany(x => x.Errors)
-                                                                          .Select(x => x.ErrorMessage);\
+                                                                          .Select(x => x.ErrorMessage);
                 
                 string errorMessage = string.Join(" | ", stateErrorMessages);
                 return Problem(errorMessage);

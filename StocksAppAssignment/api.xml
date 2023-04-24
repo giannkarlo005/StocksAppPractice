@@ -4,6 +4,20 @@
         <name>StocksAppAssignment.UI</name>
     </assembly>
     <members>
+        <member name="M:StocksAppAssignment.UI.Controllers.v1.AccountController.RegisterUser(StocksAppAssignment.Core.DTO.RegisterDTO)">
+            <summary>
+            Registers New User to the site
+            </summary>
+            <param name="registerDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StocksAppAssignment.UI.Controllers.v1.AccountController.IsEmailAlreadyRegistered(System.String)">
+            <summary>
+            Checks if the user's email address already exists in the database
+            </summary>
+            <param name="emailAddress"></param>
+            <returns></returns>
+        </member>
         <member name="T:StocksAppAssignment.UI.Controllers.v1.StocksController">
             <summary>
             Version 1 of StocksController
