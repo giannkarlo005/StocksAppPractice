@@ -9,6 +9,7 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./order-list.component.css']
 })
 export class OrderListComponent implements OnInit, OnDestroy {
+  stockSymbol: any;
   paramSubscription: any;
   buyOrders: any[] = [];
   sellOrders: any[] = [];
@@ -17,10 +18,10 @@ export class OrderListComponent implements OnInit, OnDestroy {
               private _activatedRoute: ActivatedRoute
   ) {
     this.paramSubscription = this._activatedRoute.paramMap.subscribe((params) => {
-      const stockSymbol = params.get('stockSymbol')?.toString();
+      this.stockSymbol = params.get('stockSymbol')?.toString();
 
-      if (stockSymbol) {
-        this.getOrders(stockSymbol);
+      if (this.stockSymbol) {
+        this.getOrders(this.stockSymbol);
       }
     });
   }
@@ -58,6 +59,25 @@ export class OrderListComponent implements OnInit, OnDestroy {
         console.log(error);
       },
       complete: () => {
+      }
+    });
+  }
+
+  onViewPdfLinkClicked(): void {
+    this._orderService.viewPDF(this.stockSymbol).subscribe({
+      next: (response: any) => {
+        console.log(response);
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url);
+
+      },
+      error: (error: Error) => {
+        console.log(error);
+
+      },
+      complete: () => {
+
       }
     });
   }

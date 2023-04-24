@@ -12,4 +12,8 @@ export class OrderService {
   public getOrders(stockSymbol: string): Observable<any> {
     return this._httpClient.get<any>(`${API_BASE_URL}v1/Trade/get-orders/${stockSymbol}`);
   }
+
+  public viewPDF(stockSymbol: string): Observable<any> {
+    return this._httpClient.get<any>(`${API_BASE_URL}v1/Trade/orders-pdf/${stockSymbol}`);
+  }
 }

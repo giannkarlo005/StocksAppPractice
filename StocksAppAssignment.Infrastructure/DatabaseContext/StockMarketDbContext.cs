@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-using StocksAppAssignment.Core.DTO;
 using StocksAppAssignment.Core.Entities;
+using StocksAppAssignment.Core.Identities;
 
 namespace StocksAppAssignment.Infrastructure.DatabaseContext
 {
-    public class StockMarketDbContext: DbContext
+    public class StockMarketDbContext: IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public virtual DbSet<BuyOrder> BuyOrders { get; set; }
         public virtual DbSet<SellOrder> SellOrders { get; set; }

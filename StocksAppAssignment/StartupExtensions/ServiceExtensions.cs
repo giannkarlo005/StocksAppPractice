@@ -7,6 +7,9 @@ using StocksAppAssignment.Core.Services;
 using StocksAppAssignment.Core.ServiceContracts;
 using StocksAppAssignment.Infrastructure.DatabaseContext;
 using StocksAppAssignment.Infrastructure.Repository;
+using StocksAppAssignment.Core.Identities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace StocksAppAssignment.UI.StartupExtensions
 {
@@ -34,6 +37,12 @@ namespace StocksAppAssignment.UI.StartupExtensions
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                    .AddDefaultTokenProviders()
+                    .AddEntityFrameworkStores<StockMarketDbContext>()
+                    .AddUserStore<UserStore<ApplicationUser, ApplicationRole, StockMarketDbContext, Guid>>()
+                    .AddRoleStore<RoleStore<ApplicationRole, StockMarketDbContext, Guid>>();
 
             //Swagger
             //Generates description for all endpoints
