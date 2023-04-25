@@ -3,10 +3,14 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class PageLinksService {
+export class AppService {
+  //page links
   private isTradeLinkVisible: boolean = false;
   private isOrderLinkVisible: boolean = false;
-  private stockSymbol: string = ""; 
+  private stockSymbol: string = "";
+
+  //log in status
+  private isUserLoggedIn: boolean = false;
 
   constructor() { }
 
@@ -35,5 +39,14 @@ export class PageLinksService {
 
   public setOrderLinkVisibility(isVisibile: boolean): void {
     this.isOrderLinkVisible = isVisibile;
+  }
+
+  //Is User Logged In
+  public getIsUserLoggedIn(): boolean {
+    return this.isUserLoggedIn;
+  }
+
+  public setIsUserLoggedIn(isUserLoggedIn: boolean): void {
+    this.isUserLoggedIn = isUserLoggedIn;
   }
 }

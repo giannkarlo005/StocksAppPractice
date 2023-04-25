@@ -1,7 +1,8 @@
 <div class="w-50 margin-l-r-auto text-align-center margin-top-100">
   <h2 class="margin-top-25 margin-bottom-25">Register</h2>
 
-  <form [formGroup]="registerForm">
+  <form [formGroup]="registerForm"
+        (ngSubmit)="onRegisterButtonClicked()">
 
     <!--Email-->
     <div class="form-field flex margin-bottom-30">
@@ -10,7 +11,8 @@
       </div>
       <div class="flex-1 inline-block ">
         <div>
-          <input class="input width-px-300" />
+          <input class="input width-px-300"
+                 formControlName="emailAddress" />
         </div>
       </div>
     </div>
@@ -21,7 +23,8 @@
         <label>Person Name</label>
       </div>
       <div class="flex-1 inline-block ">
-        <input class="input width-px-300" />
+        <input class="input width-px-300"
+               formControlName="personName" />
       </div>
     </div>
 
@@ -32,7 +35,8 @@
       </div>
       <div class="flex-1 inline-block ">
         <input class="input width-px-300"
-               type="number" />
+               type="number"
+               formControlName="phoneNumber" />
       </div>
     </div>
 
@@ -43,7 +47,8 @@
       </div>
       <div class="flex-1 inline-block ">
         <input class="input width-px-300"
-               type="password" />
+               type="password"
+               formControlName="password" />
       </div>
     </div>
 
@@ -54,7 +59,8 @@
       </div>
       <div class="flex-1 inline-block ">
         <input class="input width-px-300"
-               type="password" />
+               type="password"
+               formControlName="confirmPassword" />
       </div>
     </div>
 

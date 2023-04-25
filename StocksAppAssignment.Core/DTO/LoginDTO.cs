@@ -6,7 +6,7 @@ namespace StocksAppAssignment.Core.DTO
     {
         [Required(ErrorMessage = "Email Address is Required")]
         [EmailAddress(ErrorMessage = "Email Address should have a proper format")]
-        public string Email { get; set; }
+        public string EmailAddress { get; set; }
         [Required(ErrorMessage = "Password is Required")]
         public string Password { get; set; }
     }

@@ -18,6 +18,19 @@
             <param name="emailAddress"></param>
             <returns></returns>
         </member>
+        <member name="M:StocksAppAssignment.UI.Controllers.v1.AccountController.LoginUser(StocksAppAssignment.Core.DTO.LoginDTO)">
+            <summary>
+            Logs the User in to the site
+            </summary>
+            <param name="loginDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StocksAppAssignment.UI.Controllers.v1.AccountController.LogoutUser">
+            <summary>
+            Logs the user out
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:StocksAppAssignment.UI.Controllers.v1.StocksController">
             <summary>
             Version 1 of StocksController

@@ -10,11 +10,17 @@
       <div class="flex-1 w-50 inline-block align-right">
         <div class="navbar-list">
           <ul>
-            <li>
+            <li (click)="onLoginButtonClicked()"
+                *ngIf="!pageLinks.getIsUserLoggedIn()">
               Login
             </li>
-            <li>
+            <li (click)="onRegisterButtonClicked()"
+                *ngIf="!pageLinks.getIsUserLoggedIn()">
               Register
+            </li>
+            <li (click)="onLogoutButtonClicked()"
+                *ngIf="pageLinks.getIsUserLoggedIn()">
+              Logout
             </li>
           </ul>
         </div>
@@ -22,7 +28,8 @@
     </div>
 
     <!--Page Links-->
-    <div class="flex w-100">
+    <div class="flex w-100"
+         *ngIf="pageLinks.getIsUserLoggedIn()">
       <div class="flex-1 w-50">
         <div class="navbar-list">
           <ul>

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { StockTrade } from '../../models/stock-trade';
-import { PageLinksService } from '../../services/page-links-service';
+import { AppService } from '../../services/app-service';
 import { TradeService } from '../../services/trade.service';
 
 @Component({
@@ -19,7 +19,7 @@ export class TradeComponent implements OnInit, OnDestroy {
   constructor(private _activatedRoute: ActivatedRoute,
               private _router: Router,
               private _title: Title,
-              private _pageLinksService: PageLinksService,
+              private _appService: AppService,
               private _tradeService: TradeService
    ) {
     this._title.setTitle("Trade");
@@ -27,9 +27,9 @@ export class TradeComponent implements OnInit, OnDestroy {
       const stockSymbol = params.get('stockSymbol')?.toString();
 
       if (stockSymbol) {
-        this._pageLinksService.setOrderLinkVisibility(true);
-        this._pageLinksService.setTradeLinkVisibility(true);
-        this._pageLinksService.setStockSymbol(stockSymbol);
+        this._appService.setOrderLinkVisibility(true);
+        this._appService.setTradeLinkVisibility(true);
+        this._appService.setStockSymbol(stockSymbol);
 
         this.getCompanyStockPrice(stockSymbol);
       }

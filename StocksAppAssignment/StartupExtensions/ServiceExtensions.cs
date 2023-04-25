@@ -39,8 +39,8 @@ namespace StocksAppAssignment.UI.StartupExtensions
             });
 
             services.AddIdentity<ApplicationUser, ApplicationRole>()
-                    .AddDefaultTokenProviders()
                     .AddEntityFrameworkStores<StockMarketDbContext>()
+                    .AddDefaultTokenProviders()
                     .AddUserStore<UserStore<ApplicationUser, ApplicationRole, StockMarketDbContext, Guid>>()
                     .AddRoleStore<RoleStore<ApplicationRole, StockMarketDbContext, Guid>>();
 

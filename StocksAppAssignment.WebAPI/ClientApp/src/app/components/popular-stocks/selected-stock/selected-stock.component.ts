@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CompanyProfile } from '../../../models/company-profile';
-import { PageLinksService } from '../../../services/page-links-service';
+import { AppService } from '../../../services/app-service';
 
 @Component({
   selector: 'app-selected-stock',
@@ -12,7 +12,7 @@ import { PageLinksService } from '../../../services/page-links-service';
 export class SelectedStockComponent implements OnInit {
   @Input() selectedStock: CompanyProfile = new CompanyProfile();
 
-  constructor(private _pageLinksService: PageLinksService,
+  constructor(private _appService: AppService,
               private _router: Router) {
   }
 
@@ -20,11 +20,11 @@ export class SelectedStockComponent implements OnInit {
   }
 
   onTradeNowButtonClicked(): void {
-    const stockSymbol = this._pageLinksService.getStockSymbol();
+    const stockSymbol = this._appService.getStockSymbol();
 
     if (stockSymbol) {
-      this._pageLinksService.setTradeLinkVisibility(true);
-      this._pageLinksService.setOrderLinkVisibility(true);
+      this._appService.setTradeLinkVisibility(true);
+      this._appService.setOrderLinkVisibility(true);
 
       this._router.navigate([`/trade/${stockSymbol}`]);
     }

@@ -1,1 +1,47 @@
-<p>login works!</p>
+<div class="w-50 margin-l-r-auto text-align-center margin-top-100">
+  <h2 class="margin-top-25 margin-bottom-25">Login</h2>
+
+  <form [formGroup]="loginForm"
+        (ngSubmit)="onLoginButtonClicked()">
+
+    <!--Email-->
+    <div class="form-field flex margin-bottom-30">
+      <div class="w-20 inline-block ">
+        <label>Email Address</label>
+      </div>
+      <div class="flex-1 inline-block ">
+        <div>
+          <input class="input width-px-300"
+                 formControlName="emailAddress" />
+        </div>
+      </div>
+    </div>
+
+    <!--Password-->
+    <div class="form-field flex ">
+      <div class="w-20 inline-block margin-bottom-30">
+        <label>Password</label>
+      </div>
+      <div class="flex-1 inline-block ">
+        <input class="input width-px-300"
+               type="password"
+               formControlName="password" />
+      </div>
+    </div>
+
+    <!--Submit-->
+    <div class="flex">
+      <div class="flex-1 inline-block width-px-150 margin-right-10">
+        <button class="button button-green-back width-px-150">
+          Clear
+        </button>
+      </div>
+      <div class="flex-1 inline-block width-px-150">
+        <button class="button button-blue-back width-px-150"
+                type="submit">
+          Login
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
