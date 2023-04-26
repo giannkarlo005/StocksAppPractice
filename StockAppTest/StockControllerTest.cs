@@ -388,8 +388,8 @@ namespace StockAppTest
             Task<IActionResult> result = stocksController.Explore();
 
             //Assert
-            ViewResult viewResult = Assert.IsType<ViewResult>(result);
-            viewResult.ViewData.Model.Should().BeAssignableTo<IEnumerable<Stock>>();
+            OkObjectResult okObjectResult = Assert.IsType<OkObjectResult>(result.Result);
+            okObjectResult.Value.Should().BeAssignableTo<IEnumerable<Stock>>();
         }
         #endregion
     }
