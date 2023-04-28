@@ -48,8 +48,15 @@ if(builder.Environment.IsEnvironment("Test") == false)
 }
 
 app.UseStaticFiles();
+
 app.UseRouting();
+app.UseAuthorization();
+app.UseAuthentication();
+
 app.UseCors();
+
+app.UseHsts();
+app.UseHttpsRedirection();
 
 app.MapControllers();
 

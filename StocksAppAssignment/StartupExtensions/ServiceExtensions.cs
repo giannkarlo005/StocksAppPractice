@@ -1,6 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Text;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 using StocksAppAssignment.Core.RepositoryContracts;
 using StocksAppAssignment.Core.Services;
@@ -8,8 +15,6 @@ using StocksAppAssignment.Core.ServiceContracts;
 using StocksAppAssignment.Infrastructure.DatabaseContext;
 using StocksAppAssignment.Infrastructure.Repository;
 using StocksAppAssignment.Core.Identities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 namespace StocksAppAssignment.UI.StartupExtensions
 {
@@ -18,7 +23,17 @@ namespace StocksAppAssignment.UI.StartupExtensions
         public static IServiceCollection ConfigureServicesExtension(this IServiceCollection services,
                                                            IConfiguration configuration)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new ProducesAttribute("application/json"));
+                options.Filters.Add(new ConsumesAttribute("application/json"));
+
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            })
+            .AddXmlSerializerFormatters();
+
+            services.AddTransient<IJwtService, JwtService>();
 
             services.AddApiVersioning(config =>
             {
@@ -38,11 +53,38 @@ namespace StocksAppAssignment.UI.StartupExtensions
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                    .AddEntityFrameworkStores<StockMarketDbContext>()
-                    .AddDefaultTokenProviders()
-                    .AddUserStore<UserStore<ApplicationUser, ApplicationRole, StockMarketDbContext, Guid>>()
-                    .AddRoleStore<RoleStore<ApplicationRole, StockMarketDbContext, Guid>>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+
+            })
+              .AddEntityFrameworkStores<StockMarketDbContext>()
+              .AddDefaultTokenProviders()
+              .AddUserStore<UserStore<ApplicationUser, ApplicationRole, StockMarketDbContext, Guid>>()
+              .AddRoleStore<RoleStore<ApplicationRole, StockMarketDbContext, Guid>>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateAudience = true,
+                    ValidAudience = configuration["Jwt:Audience"],
+
+                    ValidateIssuer = true,
+                    ValidIssuer = configuration["Jwt:Issuer"],
+
+                    ValidateLifetime = true,
+
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                };
+            });
+
+            services.AddAuthorization(options => {
+            });
 
             //Swagger
             //Generates description for all endpoints
@@ -77,7 +119,7 @@ namespace StocksAppAssignment.UI.StartupExtensions
                 options.AddDefaultPolicy(builder =>
                 {
                     builder.WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>())
-                           .WithHeaders("origin", "accept", "content-type")
+                           .WithHeaders("Authorization", "origin", "accept", "content-type")
                            .WithMethods("GET", "POST", "PUT", "DELETE");
                 });
             });

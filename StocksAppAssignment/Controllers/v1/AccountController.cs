@@ -1,25 +1,31 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StocksAppAssignment.Core.DTO;
 using StocksAppAssignment.Core.Identities;
+using StocksAppAssignment.Core.ServiceContracts;
+using StocksAppAssignment.Core.Services;
 
 namespace StocksAppAssignment.UI.Controllers.v1
 {
     [ApiVersion("1.0")]
+    [AllowAnonymous]
     public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IJwtService _jwtService;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                  RoleManager<ApplicationRole> roleManager,
-                                 SignInManager<ApplicationUser> signInManager)
+                                 SignInManager<ApplicationUser> signInManager,
+                                 IJwtService jwtService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
-
+            _jwtService = jwtService;
         }
 
         /// <summary>
@@ -100,7 +106,15 @@ namespace StocksAppAssignment.UI.Controllers.v1
                 return Problem("Invalid username and password");
             }
 
-            return Ok(result.Succeeded);
+            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(loginDTO.EmailAddress);
+            if(applicationUser == null)
+            {
+                return NoContent();
+            }
+
+            AuthenticationResponse authenticationResponse = _jwtService.CreateJwtToken(applicationUser);
+
+            return Ok(authenticationResponse);
         }
 
         /// <summary>
